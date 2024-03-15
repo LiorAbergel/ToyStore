@@ -9,7 +9,17 @@ namespace ToyStore.DAL
 {
     public class ToyDAL : DbContext
     {
-        public ToyDAL() : base("DatabaseConnection") { } // Connection string name
+        public ToyDAL() : base("DatabaseConnection")
+        {
+            using (var CategoryDAL = new CategoryDAL())
+            {
+                foreach (var toy in Toys)
+                {
+                    toy.Category = CategoryDAL.Categories.FirstOrDefault(c => c.CategoryId == toy.CategoryId);
+                }
+            }
+        }
+
         public DbSet<Toy> Toys { get; set; } // Define DbSet for Toy model
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -17,6 +27,5 @@ namespace ToyStore.DAL
             modelBuilder.Entity<Toy>().ToTable("Toy");
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }

@@ -39,30 +39,5 @@ namespace ToyStore.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public Toy() {}
-
-        //public Toy(string name, string description, decimal price, string ageGroup, string imagePath, int categoryId)
-        //{
-        //    // Set properties
-        //    Name = name;
-        //    Description = description;
-        //    Price = price;
-        //    AgeGroup = ageGroup;
-        //    ImagePath = imagePath;
-        //    CategoryId = categoryId;
-
-        //    // Perform category logic here
-        //    Category = DetermineCategory();
-        //}
-
-        // Example method to determine category
-        private Category DetermineCategory(int categoryId)
-        {
-            using (var CategoryDAL = new CategoryDAL())
-            {
-                var x =  CategoryDAL.Categories.FirstOrDefault(c => c.CategoryId == categoryId);
-                return x;
-            }
-        }
     }
 }

@@ -19,6 +19,7 @@ namespace ToyStore.Controllers
         {
             // Retrieve all toys from the database
             var toys = _toyDAL.Toys.ToList();
+
             ToyViewModel toyViewModel = new ToyViewModel
             {
                 Toy = new Toy(),

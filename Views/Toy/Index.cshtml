@@ -32,6 +32,14 @@
     @{
         WebGrid grid = new WebGrid(Model.ToyList, canPage: false);
     }
-    @grid.GetHtml()
+    @grid.GetHtml(
+        tableStyle: "table",
+        headerStyle: "table",
+        alternatingRowStyle: "table",
+        columns: grid.Columns(
+            grid.Column("Name", "Name"),
+            grid.Column("Category.Name", "Category")
+        )
+    )
 </body>
 </html>
