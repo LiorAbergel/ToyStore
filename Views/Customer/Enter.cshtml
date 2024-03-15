@@ -1,0 +1,51 @@
+﻿@using ToyStore.Models
+@model ToyStore.ViewModel.CustomerViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Enter</title>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("Submit", "Customer", FormMethod.Post))
+        {
+            <i> First Name:</i> @Html.TextBoxFor(m => m.Customer.FirstName) @Html.ValidationMessageFor(x => x.Customer.FirstName)
+            <br />
+            <i>Last Name:</i> @Html.TextBoxFor(m => m.Customer.LastName) @Html.ValidationMessageFor(x => x.Customer.LastName)
+            <br />
+            <i>Email:</i> @Html.TextBoxFor(m => m.Customer.Email) @Html.ValidationMessageFor(x => x.Customer.Email)
+            <br />
+            <i>Address:</i> @Html.TextBoxFor(m => m.Customer.Address) @Html.ValidationMessageFor(x => x.Customer.Address)
+            <input id="Submit1" type="submit" value="Add Customer" />
+            <!-- @Html.ValidationSummary() -->
+        }
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Address</th>
+            </tr>
+            @foreach (Customer customer in Model.customers)
+            {
+                <tr>
+                    <td>@customer.FirstName </td>
+                    <td>@customer.LastName </td>
+                    <td>@customer.Email </td>
+                    <td>@customer.Address </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>

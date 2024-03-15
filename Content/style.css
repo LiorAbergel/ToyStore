@@ -1,0 +1,199 @@
+﻿.body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+header, main, footer {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.title-container {
+    text-align: center;
+    background-color: #d0d0d0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.search-bar {
+    margin-bottom: 10px;
+}
+
+.nav-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 3px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    aspect-ratio: 4 / 3;
+    max-width: 200px;
+    border: 2px solid #333;
+    flex: 0 0 calc(33.33% - 10px);
+    margin-right: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav li {
+    margin-left: 0px;
+    flex: 1;
+    text-align: center;
+}
+
+.toys-container {
+    background-color: #a0a0a0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-bar input {
+    width: 500px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.product-card {
+    margin: 10px;
+    text-align: center;
+}
+
+footer {
+    background-color: #f5f5f5;
+    padding: 20px;
+    text-align: center;
+}
+
+.social-links {
+    margin-top: 10px;
+}
+
+    .social-links a {
+        margin-right: 10px;
+    }
+
+
+.nav-toolbox {
+    flex: 1;
+    text-align: right;
+}
+
+
+.left-column {
+    grid-column: 1 / span 1;
+    Span: 1 column
+}
+
+.right-column {
+    grid-column: 2 / span 1;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.text-container {
+    grid-column: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    display: none;
+    Initially hide text container Animation transition: transform 0.3s ease-in-out;
+    transform: translateX(100%);
+    Start off-screen
+}
+
+.right-column.expanded .text-container {
+    display: block;
+    Show text container when expanded transform: translateX(0);
+    Slide in from the right
+}
+
+.grid-container {
+    display: grid;
+    margin-top: -15px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-left: -0px;
+    Set the left margin to 0 align-items: stretch;
+    grid-template-columns: 1fr 9fr;
+}
+
+.login-form {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+    .login-form h2 {
+        margin-top: 0;
+    }
+
+    .login-form label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .login-form input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .login-form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+    .close:hover {
+        color: red; /* Change color when hovered */
+    }
+
+.container {
+    margin-left: 0; /* Remove auto margin left */
+}
