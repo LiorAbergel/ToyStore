@@ -1,0 +1,49 @@
+﻿@model ToyStore.ViewModel.ToyViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @{
+            WebGrid grid = new WebGrid(Model.ToyList, canPage: false);
+        }
+        @grid.GetHtml(
+            tableStyle: "table",
+            headerStyle: "table",
+            alternatingRowStyle: "table",
+            columns: grid.Columns(
+                grid.Column("Name", "Name"),
+                grid.Column("Category.Name", "Category"),
+                grid.Column("AgeGroup", "Age Group"),
+                grid.Column("Description", "Description"),
+                grid.Column("Price", "Price")
+            )
+        )
+    </div>
+</body>
+</html>

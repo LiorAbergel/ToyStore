@@ -201,6 +201,7 @@
     <Content Include="Views\Customer\Enter.cshtml" />
     <Content Include="Views\Customer\SearchCustomer.cshtml" />
     <Content Include="Views\Toy\Index.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

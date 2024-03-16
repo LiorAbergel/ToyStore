@@ -14,6 +14,7 @@ namespace ToyStore.Controllers
         private readonly ToyDAL _toyDAL;
         public HomeController() { _toyDAL = new ToyDAL(); } // Inject ToyContext dependency
 
+
         public ActionResult Index()
         {
             // Retrieve all toys from the database
@@ -40,6 +41,28 @@ namespace ToyStore.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Search()
+        {
+            string searchValue = Request.Form["searchText"].ToString().ToLower();
+
+            List<Toy> toyList = _toyDAL.Toys.Where(x => x.Name.Contains(searchValue)).ToList();
+
+            foreach (var toy in _toyDAL.Toys)
+            {
+                if (toy.Category.Name.ToLower().Contains(searchValue))
+                {
+                    toyList.Add(toy);
+                }
+            }
+            
+            ToyViewModel tvm = new ToyViewModel
+            {
+                ToyList = toyList
+            };
+
+            return View("Search", tvm);
         }
     }
 }
