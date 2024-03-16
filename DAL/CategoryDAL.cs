@@ -14,6 +14,7 @@ namespace ToyStore.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Configuration.LazyLoadingEnabled = true;
             modelBuilder.Entity<Category>().ToTable("Category");
             base.OnModelCreating(modelBuilder);
         }

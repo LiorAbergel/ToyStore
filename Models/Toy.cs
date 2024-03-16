@@ -8,11 +8,11 @@ using ToyStore.DAL;
 
 namespace ToyStore.Models
 {
+    [Table("Toy")]
     public class Toy
     {
         [Key]
-        [Required(ErrorMessage = "Please enter a valid Id.")]
-        [Range(1, int.MaxValue)]
+        [Required(ErrorMessage = "Please enter a valid Toy Id.")]
         public int ToyId { get; set; }
 
         [Required(ErrorMessage = "Please enter the name of the toy.")]
@@ -27,6 +27,10 @@ namespace ToyStore.Models
         [Range(1, 1000, ErrorMessage = "Price must be between $1 and $1000.")]
         public decimal Price { get; set; }
 
+        [Required(ErrorMessage = "Please enter the amount of the toy in stock.")]
+        [Range(0, 1000, ErrorMessage = "Amount must be between 0 and 1000.")]
+        public int Amount { get; set; }
+
         [Required(ErrorMessage = "Please enter the age group the toy is suitable for.")]
         [StringLength(10, MinimumLength = 2, ErrorMessage = "Age group must be 2 - 10 characters.")]
         public string AgeGroup { get; set; }
@@ -37,7 +41,9 @@ namespace ToyStore.Models
 
         [Required(ErrorMessage = "Please enter the category Id.")]
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
 
     }
 }

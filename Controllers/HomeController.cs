@@ -48,14 +48,8 @@ namespace ToyStore.Controllers
             string searchValue = Request.Form["searchText"].ToString().ToLower();
 
             List<Toy> toyList = _toyDAL.Toys.Where(x => x.Name.Contains(searchValue)).ToList();
-
-            foreach (var toy in _toyDAL.Toys)
-            {
-                if (toy.Category.Name.ToLower().Contains(searchValue))
-                {
-                    toyList.Add(toy);
-                }
-            }
+            toyList.AddRange(_toyDAL.Toys.Where(x => x.Category.Name.Contains(searchValue)).ToList());
+            toyList.AddRange(_toyDAL.Toys.Where(x => x.Description.Contains(searchValue)).ToList());
             
             ToyViewModel tvm = new ToyViewModel
             {

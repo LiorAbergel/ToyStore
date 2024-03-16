@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace ToyStore.Models
 {
+    [Table("Customer")]
     public class Customer
     {
         [Key]
@@ -26,5 +28,11 @@ namespace ToyStore.Models
         [Required(ErrorMessage = "Address is required.")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Address should consist of 2 to 100 characters in length.")]
         public string Address { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password should be at least 8 characters long.")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$",
+            ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
+        public string Password { get; set; }
     }
 }
