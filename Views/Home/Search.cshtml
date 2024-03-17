@@ -5,45 +5,78 @@
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>View</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toy Story Search</title>
+    <link rel="stylesheet" href="~/Content/GalleryStyles.css">
+    <link rel="stylesheet" href="~/Content/header.css">
 </head>
 <body>
-    <div>
-        @{
-            WebGrid grid = new WebGrid(Model.ToyList, canPage: false);
-        }
-        @grid.GetHtml(
-            tableStyle: "table",
-            headerStyle: "table",
-            alternatingRowStyle: "table",
-            columns: grid.Columns(
-                grid.Column("Name", "Name"),
-                grid.Column("Category.Name", "Category"),
-                grid.Column("AgeGroup", "Age Group"),
-                grid.Column("Description", "Description"),
-                grid.Column("Price", "Price")
-            )
-        )
+    <div class="header">
+        <h1>Toy Store</h1>
+        <ul>
+            <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li><a href="CartView.html">Cart</a></li>
+            <li><a href="#" onclick="return false;">Gallery</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="TrackOrderView.html">Track Order</a></li>
+        </ul>
     </div>
+    <p>You searched for : @ViewBag.SearchValue</p>
+    <div class="container" id="products-container">
+        <!-- Products will be dynamically added here -->
+    </div>
+    <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))'></div>
+    <script src="~/Scripts/GalleryScripts.js"></script>
 </body>
 </html>
+
+
+
+@*<!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>View</title>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            @{
+                WebGrid grid = new WebGrid(Model.ToyList, canPage: false);
+            }
+            @grid.GetHtml(
+                tableStyle: "table",
+                headerStyle: "table",
+                alternatingRowStyle: "table",
+                columns: grid.Columns(
+                    grid.Column("Name", "Name"),
+                    grid.Column("Category.Name", "Category"),
+                    grid.Column("AgeGroup", "Age Group"),
+                    grid.Column("Description", "Description"),
+                    grid.Column("Price", "Price")
+                )
+            )
+        </div>
+    </body>
+    </html>*@
+

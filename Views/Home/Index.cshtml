@@ -1,9 +1,8 @@
 ﻿@model ToyStore.ViewModel.ToyViewModel
-@using ToyStore.Models;
-@{
-    ViewBag.Title = "Home Page";
-}
 
+@{
+    Layout = null;
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,56 +11,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toy Store</title>
     <link rel="stylesheet" href="~/Content/style.css">
+    <link rel="stylesheet" href="~/Content/header.css">
 </head>
 <body>
+    <div class="header">
+        <h1>My Website</h1>
+        <nav class="toy-layer">
+            <div class="container align-items-center">
+                <button onclick="toggleLogin()">Login</button>
+                <div id="loginForm" class="login-form">
+                    <span class="close" onclick="closeLoginForm()">&times;</span>
+                    <form>
+                        <h2>Login</h2>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required><br>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required><br>
+                        <button type="button" onclick="showRegisterForm()">Register</button>
+                        <button type="submit">Login</button>
+                    </form>
+                    <form id="register" class="form" style="display: none;">
+                        <h2>Register</h2>
+                        <label for="reg_username">Username:</label>
+                        <input type="text" id="reg_username" name="reg_username" required><br>
+                        <label for="reg_password">Password:</label>
+                        <input type="password" id="reg_password" name="reg_password" required><br>
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+
+        </nav>
+
+        <div class="container">
+            <button class="menu-btn" onclick="toggleMenu()">
+                <span class="icon"></span>
+            </button>
+            <nav class="menu">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <ul>
+            <li><a href="#" onclick="return false;">Home</a></li>
+            <li><a href="#">Cart</a></li>
+            <li><a href="@Url.Action("Gallery", "Home")">Gallery</a></li>
+            <li><a href="@Url.Action("About", "Home")">About</a></li>
+            <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
+            <li><a href="#">Track Order</a></li>
+
+        </ul>
+    </div>
+    <!-- Your content goes here -->
     <div class="grid-container">
         <div class="left-column">
-            <nav class="navbar  navbar-dark bg-dark align-items-center">
-
-                <div class="container align-items-center">
-
-
-                    <div class="collapse navbar-collapse justify-content-sm-center ">
-                        <button onclick="toggleLogin()">Login</button>
-                        <div id="loginForm" class="login-form">
-                            <span class="close" onclick="closeLoginForm()">&times;</span>
-                            <form>
-                                <h2>Login</h2>
-                                <label for="username">Username:</label>
-                                <input type="text" id="username" name="username" required><br>
-                                <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" required><br>
-                                <button type="button" onclick="showRegisterForm()">Register</button>
-                                <button type="submit">Login</button>
-                            </form>
-                            <form id="register" class="form" style="display: none;">
-                                <h2>Register</h2>
-                                <label for="reg_username">Username:</label>
-                                <input type="text" id="reg_username" name="reg_username" required><br>
-                                <label for="reg_password">Password:</label>
-                                <input type="password" id="reg_password" name="reg_password" required><br>
-                                <button type="submit">Register</button>
-                            </form>
-                        </div>
-                        <ul class="navbar-nav flex-grow-1">
-                            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </nav>
 
         </div>
         <div class="right-column">
             <main>
                 <div class="title-container">
-                    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
-                    {
-                        <input id="searchText" name="searchText" type="text" />
-                        <input id="searchButton" type="submit" value="Search" />
-                    }
+                    <div class="search-bar">
+                        @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+                        {
+                            <input id="searchText" name="searchText" type="search" , placeholder="Search for toys" />
+                            <input id="searchButton" type="submit" value="Search" />
+                        }
+                    </div>
                     <nav>
                         <ul>
                             <li><a href="#">Home</a></li>
@@ -77,15 +96,11 @@
                         <div class="nav-box">
                             <h2>Featured Items</h2>
                             <div class="product-grid">
-                            @foreach(var toy in Model.ToyList)
-                            {
                                 <article class="product-card">
-                                    <img src="@toy.ImagePath" alt="Nice picture">
-                                    <h3>@toy.Name</h3>
-                                    <h3>@toy.Category.Name</h3>
-                                    <p>@toy.Price</p>
+                                    <img src="product1.jpg" alt="Product 1">
+                                    <h3>Product Name</h3>
+                                    <p>$29.99</p>
                                 </article>
-                            }
                             </div>
                         </div>
                     </section>
@@ -105,7 +120,7 @@
             <a href="#"><img src="instagram.svg" alt="Instagram"></a>
         </div>
     </footer>
-    <script src="~/Scripts/script.js"></script>
+    <div id="toyData" data-toydata="@Html.Raw(Json.Encode(Model.ToyList))"></div>
+    <script src="~/Scripts/HomeScript.js"></script>
 </body>
 </html>
-

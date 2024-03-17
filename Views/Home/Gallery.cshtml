@@ -1,0 +1,35 @@
+﻿@model ToyStore.ViewModel.ToyViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toy Story Products</title>
+    <link rel="stylesheet" href="~/Content/GalleryStyles.css">
+    <link rel="stylesheet" href="~/Content/header.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Toy Store</h1>
+        <ul>
+            <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li><a href="CartView.html">Cart</a></li>
+            <li><a href="#" onclick="return false;">Gallery</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="TrackOrderView.html">Track Order</a></li>
+        </ul>
+    </div>
+    <div class="container" id="products-container">
+        <!-- Products will be dynamically added here -->
+    </div>
+    <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))'></div>
+    <script src="~/Scripts/GalleryScripts.js"></script>
+</body>
+</html>
+

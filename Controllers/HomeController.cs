@@ -12,21 +12,19 @@ namespace ToyStore.Controllers
     public class HomeController : Controller
     {
         private readonly ToyDAL _toyDAL;
-        public HomeController() { _toyDAL = new ToyDAL(); } // Inject ToyContext dependency
-
-
-        public ActionResult Index()
+        private readonly ToyViewModel _toyViewModel;
+        public HomeController()
         {
-            // Retrieve all toys from the database
-            var toys = _toyDAL.Toys.ToList();
-
-            ToyViewModel toyViewModel = new ToyViewModel
+            _toyDAL = new ToyDAL();
+            _toyViewModel = new ToyViewModel
             {
                 Toy = new Toy(),
-                ToyList = toys
+                ToyList = _toyDAL.Toys.ToList()
             };
-
-            return View(toyViewModel); // Pass data to the View
+        }
+        public ActionResult Index()
+        {
+            return View(_toyViewModel); // Pass data to the View
         }
 
         public ActionResult About()
@@ -56,7 +54,14 @@ namespace ToyStore.Controllers
                 ToyList = toyList
             };
 
+            ViewBag.SearchValue = searchValue; // Pass the search value using ViewBag
+
             return View("Search", tvm);
+        }
+
+        public ActionResult Gallery()
+        {
+            return View(_toyViewModel);
         }
     }
 }

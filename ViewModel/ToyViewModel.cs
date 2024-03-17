@@ -10,5 +10,5 @@ namespace ToyStore.ViewModel
     {
         public Toy Toy { get; set; }
         public List<Toy> ToyList { get; set; }
-    }
+    }   
 }

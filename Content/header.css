@@ -1,0 +1,87 @@
+﻿/* CSS for header */
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+    .header h1 {
+        margin: 0;
+    }
+
+    .header ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .header ul li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+            .header ul li:last-child {
+                margin-right: 0;
+            }
+
+            .header ul li a {
+                color: #fff;
+                text-decoration: none;
+            }
+/* CSS for hamburger menu */
+.menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+    .menu-btn .icon {
+        background-color: #f1eaea;
+        display: block;
+        height: 3px;
+        width: 25px;
+        margin: 5px auto;
+        transition: background-color 0.3s ease;
+    }
+
+        .menu-btn .icon:before,
+        .menu-btn .icon:after {
+            background-color: #d5cfcf;
+            content: '';
+            display: block;
+            height: 3px;
+            width: 25px;
+            margin: 5px auto;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-btn .icon:before {
+            transform: translateY(-8px);
+        }
+
+        .menu-btn .icon:after {
+            transform: translateY(8px);
+        }
+
+.menu.open {
+    display: block;
+}
+
+.menu {
+    display: none;
+}
+
+    .menu ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .menu li {
+        padding: 10px 0;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: #ccc3c3;
+        font-size: 18px;
+    }

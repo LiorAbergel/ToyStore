@@ -25,3 +25,16 @@ function showRegisterForm() {
 function closeLoginForm() {
     document.getElementById("loginForm").style.display = "none";
 }
+
+// JavaScript for toggling the menu
+function toggleMenu() {
+    var menu = document.querySelector('.menu');
+    menu.classList.toggle('open');
+}
+
+// Retrieve the JSON data from the data attribute
+var toyDataElement = document.getElementById('toyData');
+var toyDataAttribute = toyDataElement.getAttribute('data-toydata');
+
+// Parse the JSON data
+var toyData = JSON.parse(toyDataAttribute);

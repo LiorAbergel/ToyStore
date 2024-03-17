@@ -106,7 +106,6 @@ footer {
 
 .left-column {
     grid-column: 1 / span 1;
-    Span: 1 column
 }
 
 .right-column {
@@ -120,15 +119,13 @@ footer {
     padding: 20px;
     background-color: #f9f9f9;
     display: none;
-    Initially hide text container Animation transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
     transform: translateX(100%);
-    Start off-screen
 }
 
 .right-column.expanded .text-container {
     display: block;
-    Show text container when expanded transform: translateX(0);
-    Slide in from the right
+    transform: translateX(0);
 }
 
 .grid-container {
@@ -137,7 +134,7 @@ footer {
     width: 100%;
     aspect-ratio: 16 / 9;
     margin-left: -0px;
-    Set the left margin to 0 align-items: stretch;
+    align-items: stretch;
     grid-template-columns: 1fr 9fr;
 }
 
