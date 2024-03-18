@@ -10,8 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toy Story Products</title>
-    <link rel="stylesheet" href="~/Content/GalleryStyles.css">
-    <link rel="stylesheet" href="~/Content/header.css">
+    <link rel="stylesheet" href="~/Styles/GalleryStyles.css">
+    <link rel="stylesheet" href="~/Styles/header.css">
 </head>
 <body>
     <div class="header">
@@ -29,7 +29,7 @@
         <!-- Products will be dynamically added here -->
     </div>
     <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))'></div>
-    <script src="~/Scripts/GalleryScripts.js"></script>
+    <script src="~/Scripts/Gallery/GalleryScripts.js"></script>
 </body>
 </html>
 
