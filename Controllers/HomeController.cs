@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,7 @@ using ToyStore.ViewModel;
 
 namespace ToyStore.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public HomeController() { }
         public ActionResult Index()
@@ -30,6 +31,8 @@ namespace ToyStore.Controllers
 
             return View();
         }
+
+
 
     }
 }

@@ -2,10 +2,6 @@
 // script.js
 
 // Define a function to toggle the display of the text container
-function toggleExpand() {
-    var rightColumn = document.querySelector('.right-column');
-    rightColumn.classList.toggle('expanded');
-}
 function toggleLogin() {
     var loginForm = document.getElementById("loginForm");
     if (loginForm.style.display === "block") {
@@ -24,12 +20,6 @@ function showRegisterForm() {
 
 function closeLoginForm() {
     document.getElementById("loginForm").style.display = "none";
-}
-
-// JavaScript for toggling the menu
-function toggleMenu() {
-    var menu = document.querySelector('.menu');
-    menu.classList.toggle('open');
 }
 
 // Retrieve the JSON data from the data attribute

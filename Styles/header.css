@@ -1,18 +1,23 @@
-﻿/* CSS for header */
+﻿/* Common styles */
+html * {
+    font-family: Arial, sans-serif;
+}
+
+
 .header {
+    display: flex;
+    flex-direction: column;
     background-color: #333;
     color: #fff;
     padding: 10px 0;
     text-align: center;
 }
-
-    .header h1 {
-        margin: 0;
-    }
-
     .header ul {
-        list-style-type: none;
+        list-style-type: none;  
         padding: 0;
+        display: flex;
+        margin-left : 20px;
+        margin-top : 20px;
     }
 
         .header ul li {
@@ -28,32 +33,83 @@
                 color: #fff;
                 text-decoration: none;
             }
-/* CSS for hamburger menu */
+
+.top-header {
+    display:flex;
+    flex-direction: row;
+}
+
+.logo {
+    order: 1;
+    margin-left: 20px;
+}
+
+.signin-button {
+    order: 2;
+    color: #fff;
+    background-color: #333;
+    padding: 20px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: underline;
+    margin-right: auto; /* Adjust as needed */
+}
+
+.search-bar {
+    order:3;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center; /* Center vertically */
+}
+
+.search-button {
+    margin-left: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+    .search-button i {
+        margin-right: 5px; /* Add some spacing between the icon and the text */
+    }
+
+.search-input,
+.search-button {
+    flex: 1; /* Use flexbox to distribute available space equally */
+    padding: 6px; /* Adjust padding */
+    box-sizing: border-box;
+    font-size: 14px; /* Adjust font size */
+}
+
+.navbar {
+}
+
+
+
+
+/* Hamburger menu */
 .menu-btn {
     background: none;
     border: none;
     cursor: pointer;
 }
 
-    .menu-btn .icon {
+    .menu-btn .icon,
+    .menu-btn .icon:before,
+    .menu-btn .icon:after {
         background-color: #f1eaea;
         display: block;
         height: 3px;
         width: 25px;
-        margin: 5px auto;
-        transition: background-color 0.3s ease;
+        margin-left: ;
+        transition: transform 0.3s ease;
     }
-
-        .menu-btn .icon:before,
-        .menu-btn .icon:after {
-            background-color: #d5cfcf;
-            content: '';
-            display: block;
-            height: 3px;
-            width: 25px;
-            margin: 5px auto;
-            transition: transform 0.3s ease;
-        }
 
         .menu-btn .icon:before {
             transform: translateY(-8px);
@@ -61,6 +117,11 @@
 
         .menu-btn .icon:after {
             transform: translateY(8px);
+        }
+
+        .menu-btn .icon:before,
+        .menu-btn .icon:after {
+            background-color: #d5cfcf;
         }
 
 .menu.open {
@@ -85,3 +146,69 @@
         color: #ccc3c3;
         font-size: 18px;
     }
+
+footer {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+}
+
+.login-form {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+    .login-form h2 {
+        margin-top: 0;
+    }
+
+    .login-form label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .login-form input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .login-form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+    .close:hover {
+        color: red; /* Change color when hovered */
+    }
+
+.body-content {
+    display: grid;
+    grid-template-columns: 1fr; /* Create a single column that takes all available space */
+}
+

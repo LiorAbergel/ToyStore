@@ -1,7 +1,6 @@
 ﻿body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
     background-color: #f5f5f5;
 }
 
@@ -10,6 +9,9 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
+    width: 100%; /* Set width to 100% */
+    max-width: none; /* Ensure no maximum width constraints */
+    margin: 0; /* Remove any margins */
 }
 
 .product {
@@ -23,3 +25,9 @@
     .product h2 {
         margin-top: 0;
     }
+
+.buttons {
+    margin-top: 10px;
+}
+
+

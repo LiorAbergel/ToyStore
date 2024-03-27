@@ -8,7 +8,7 @@ using ToyStore.ViewModel;
 
 namespace ToyStore.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : BaseController
     {
         // GET: Customer
         public ActionResult Load()
@@ -77,6 +77,11 @@ namespace ToyStore.Controllers
             cvm.CustomerList = customers;
 
             return View("SearchCustomer", cvm);
+        }
+
+        public ActionResult LogIn()
+        { 
+            return View();
         }
     }
 }

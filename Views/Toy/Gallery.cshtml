@@ -1,35 +1,31 @@
 ﻿@model ToyStore.ViewModel.ToyViewModel
 
-@{
-    Layout = null;
-}
+@{ Layout = "/Views/Shared/_Layout.cshtml";}
+
+@{ViewBag.Title = "Gallery";}
+
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toy Story Products</title>
-    <link rel="stylesheet" href="~/Styles/GalleryStyles.css">
-    <link rel="stylesheet" href="~/Styles/header.css">
+    <title>ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Styles/gallery.css">
+
 </head>
+
 <body>
-    <div class="header">
-        <h1>Toy Store</h1>
-        <ul>
-            <li><a href="@Url.Action("Index", "Home")">Home</a></li>
-            <li><a href="CartView.html">Cart</a></li>
-            <li><a href="#" onclick="return false;">Gallery</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="TrackOrderView.html">Track Order</a></li>
-        </ul>
-    </div>
+
     <div class="container" id="products-container">
         <!-- Products will be dynamically added here -->
     </div>
-    <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))'></div>
+
+    <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))' style="display:none;"></div>
     <script src="~/Scripts/Gallery/GalleryScripts.js"></script>
+
 </body>
 </html>
 

@@ -1,54 +1,100 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var categories = ViewBag.HeaderCategories;
+}
+
+@{
+    ViewBag.Title = "Toy Store";
+}
+
+<!DOCTYPE html>
 <html>
 
 <head>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Styles/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
+
 <body>
 
+    <div class="header">
 
+        <div class="top-header">
 
-    <nav class="navbar flex-column  navbar-toggleable-sm navbar-dark bg-dark">
-
-        <!-- Image and text -->
-        <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">
-                <img src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-                Bootstrap
+            <a href="@Url.Action("Index", "Home")">
+                <img class="logo" src="/Images/Toy_Story_logo.svg.png" width="100" height="70" alt="Toy Store Logo">
             </a>
-        </nav>
 
+            <a href="@Url.Action("LogIn", "Customer")" class="signin-button">Sign In</a>
 
-        <div class="container">
-            @Html.ActionLink("Toy Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler " data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-
+            <div class="search-bar">
+                @using (Html.BeginForm("Search", "Toy", FormMethod.Post, new { @class = "search-form" }))
+                {
+                    <input id="searchText" name="searchText" type="search" placeholder="Search for toys" class="search-input" />
+                    <button id="searchButton" type="submit" class="search-button">
+                        <i class="fas fa-search"></i> <!-- Font Awesome search icon -->
+                        Search
+                    </button>
+                }
             </div>
+
         </div>
 
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+
+        <div class="navbar">
+            <ul>
+                <li><a href="@Url.Action("Index", "Home")" ;">Home</a></li>
+                <li><a href="#">Cart</a></li>
+                <li><a href="@Url.Action("Gallery", "Toy")">Gallery</a></li>
+                <li><a href="@Url.Action("About", "Home")">About</a></li>
+                <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
+                <li><a href="#">Track Order</a></li>
+            </ul>
+        </div>
+
+        <button class="menu-btn" onclick="toggleMenu()">
+            <span class="icon"></span>
+        </button>
+
+
+        <nav class="menu">
+            <ul>
+                @foreach (var category in categories)
+                {
+                    <li><a href="@Url.Action("Search", "Toy", new { categoryName = category.Name })">@category.Name</a></li>
+                }
+            </ul>
+
+        </nav>
+
     </div>
 
+    <div class="body-content">
+        @RenderBody()
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/Header/HeaderScript.js"></script>
 
 </body>
 </html>
+<footer>
+    <p>&copy;@DateTime.Now.Year - Toy Store</p>
+    <div class="social-links">
+        <a href="https://facebook.com"><img src="~/Images/facebook.png" alt="Facebook"></a>
+        <a href="https://instagram.com"><img src="~/Images/instagram.png" alt="Instagram"></a>
+    </div>
+</footer>
+
+
+
+
+

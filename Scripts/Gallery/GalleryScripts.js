@@ -1,5 +1,4 @@
-﻿// Generate sample products
-const productsContainer = document.getElementById("products-container");
+﻿const productsContainer = document.getElementById("products-container");
 
 // Retrieve the JSON data from the data attribute
 var toyDataElement = document.getElementById('toyData');

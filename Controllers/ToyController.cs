@@ -9,7 +9,7 @@ using ToyStore.ViewModel;
 
 namespace ToyStore.Controllers
 {
-    public class ToyController : Controller
+    public class ToyController : BaseController
     {
         private readonly ToyDAL _toyDAL;
         private readonly ToyViewModel _toyViewModel;
@@ -28,9 +28,12 @@ namespace ToyStore.Controllers
             return View(_toyViewModel);
         }
 
-        public ActionResult Search()
+        public ActionResult Search(string categoryName)
         {
-            string searchValue = Request.Form["searchText"].ToString().ToLower();
+            string searchValue;
+            if (categoryName == null) { searchValue = Request.Form["searchText"].ToString().ToLower(); }
+            else { searchValue = categoryName; }
+
 
             List<Toy> toyList = _toyDAL.Toys.Where(x => x.Name.Contains(searchValue)).ToList();
             toyList.AddRange(_toyDAL.Toys.Where(x => x.Category.Name.Contains(searchValue)).ToList());

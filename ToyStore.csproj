@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ToyController.cs" />
@@ -167,9 +168,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="Styles\GalleryStyles.css" />
+    <Content Include="Images\facebook.png" />
+    <Content Include="Images\instagram.png" />
+    <Content Include="Images\Toy_Story_logo.svg.png" />
+    <Content Include="Scripts\Header\HeaderScript.js" />
+    <Content Include="Styles\gallery.css" />
     <Content Include="Styles\header.css" />
-    <Content Include="Styles\style.css" />
+    <Content Include="Styles\home.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -212,10 +217,13 @@
     <Content Include="Views\Toy\Index.cshtml" />
     <Content Include="Views\Toy\Search.cshtml" />
     <Content Include="Views\Toy\Gallery.cshtml" />
+    <Content Include="Views\Customer\LogIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Category\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
