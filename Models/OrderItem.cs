@@ -12,7 +12,7 @@ namespace ToyStore.Models
     {
         [Key]
         public int OrderItemId { get; set; }
-
+            
         [Required(ErrorMessage = "Order ID is required.")]
         public int OrderId { get; set; }
 
@@ -20,7 +20,7 @@ namespace ToyStore.Models
         public int ToyId { get; set; }
 
         [Required(ErrorMessage = "Amount is required.")]
-        [Range(0, 1000, ErrorMessage = "Amount must be between 0 and 1000.")]
+        [Range(1, 1000, ErrorMessage = "Amount must be between 1 and 1000.")]
         public int Amount { get; set; }
 
         [Required(ErrorMessage = "Price is required.")]

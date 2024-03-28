@@ -25,7 +25,7 @@ namespace ToyStore.Models
         [Display(Name = "Total Amount")]
         public decimal TotalAmount { get; set; }
 
-        // Navigation property for Customer
+        [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
     }
 }

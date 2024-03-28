@@ -1,0 +1,50 @@
+﻿@model ToyStore.ViewModel.CustomerViewModel
+
+@{Layout = "/Views/Shared/_Layout.cshtml";}
+@{ViewBag.Title = "Log in";}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Styles/login.css">
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h2>Register</h2>
+
+        <form action="@Url.Action("SubmitRegister", "Customer")" method="post">
+
+            @Html.LabelFor(model => model.Customer.FirstName, "First Name: ")
+            @Html.TextBoxFor(model => model.Customer.FirstName, new { required = "required" })
+            @Html.ValidationMessageFor(model => model.Customer.FirstName, "", new { @class = "text-danger" })
+
+            @Html.LabelFor(model => model.Customer.LastName, "Last Name: ")
+            @Html.TextBoxFor(model => model.Customer.LastName, new { required = "required" })
+            @Html.ValidationMessageFor(model => model.Customer.LastName, "", new { @class = "text-danger" })
+
+            @Html.LabelFor(model => model.Customer.Address, "Address: ")
+            @Html.TextBoxFor(model => model.Customer.Address, new { required = "required" })
+            @Html.ValidationMessageFor(model => model.Customer.Address, "", new { @class = "text-danger" })
+
+            @Html.LabelFor(model => model.Customer.Email, "Email: ")
+            @Html.TextBoxFor(model => model.Customer.Email, new { required = "required" })
+            @Html.ValidationMessageFor(model => model.Customer.Email, "", new { @class = "text-danger" })
+
+            @Html.LabelFor(model => model.Customer.Password, "Password: ")
+            @Html.PasswordFor(model => model.Customer.Password, new { required = "required" })
+            @Html.ValidationMessageFor(model => model.Customer.Password, "", new { @class = "text-danger" })
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

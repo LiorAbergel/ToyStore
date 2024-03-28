@@ -11,7 +11,7 @@ namespace ToyStore.Models
     public class Customer
     {
         [Key]
-        public string CustomerId { get; set; }
+        public int CustomerId { get; set; }
 
         [Required(ErrorMessage = "First name is required.")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "First name should consist of 2 to 50 characters in length.")]
