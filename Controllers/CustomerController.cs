@@ -69,6 +69,7 @@ namespace ToyStore.Controllers
                     // If the customer exists, store the customer in the session and redirect to the home page
                     Session["Customer"] = customer;
                     Session["IsLoggedIn"] = "true";
+                    Session["Role"] = customer.Role;
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -86,6 +87,7 @@ namespace ToyStore.Controllers
         {
             Session.Remove("Customer");
             Session.Remove("IsLoggedIn");
+            Session.Remove("Role");
             return RedirectToAction("Index", "Home");
         }
 
