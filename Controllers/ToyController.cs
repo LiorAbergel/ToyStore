@@ -34,15 +34,14 @@ namespace ToyStore.Controllers
             if (categoryName == null) { searchValue = Request.Form["searchText"].ToString().ToLower(); }
             else { searchValue = categoryName; }
 
-
             List<Toy> toyList = _toyDAL.Toys.Where(x => x.Name.Contains(searchValue)).ToList();
             toyList.AddRange(_toyDAL.Toys.Where(x => x.Category.Name.Contains(searchValue)).ToList());
             toyList.AddRange(_toyDAL.Toys.Where(x => x.Description.Contains(searchValue)).ToList());
 
-            ToyViewModel tvm = new ToyViewModel
-            {
-                ToyList = toyList
-            };
+            // remove duplicates from the list
+            toyList = toyList.Distinct().ToList();
+
+            ToyViewModel tvm = new ToyViewModel {ToyList = toyList};
 
             ViewBag.SearchValue = searchValue; // Pass the search value using ViewBag
 

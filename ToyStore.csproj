@@ -130,6 +130,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ToyController.cs" />
     <Compile Include="DAL\CategoryDAL.cs" />
     <Compile Include="DAL\CustomerDAL.cs" />
@@ -220,13 +221,13 @@
     <Content Include="Views\Toy\Gallery.cshtml" />
     <Content Include="Views\Customer\LogIn.cshtml" />
     <Content Include="Views\Customer\Register.cshtml" />
+    <Content Include="Views\Order\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Migrations\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Category\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

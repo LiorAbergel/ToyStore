@@ -16,16 +16,13 @@ namespace ToyStore.Models
         [Required(ErrorMessage = "Customer ID is required.")]
         public int CustomerId { get; set; }
 
+        [ForeignKey("CustomerId")]
+        public virtual Customer Customer { get; set; }
+
         [Required(ErrorMessage = "Order date is required.")]
         [Display(Name = "Order Date")]
         public DateTime OrderDate { get; set; }
 
-        [Required(ErrorMessage = "Total amount is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Total amount must be greater than 0.")]
-        [Display(Name = "Total Amount")]
-        public decimal TotalAmount { get; set; }
 
-        [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
     }
 }

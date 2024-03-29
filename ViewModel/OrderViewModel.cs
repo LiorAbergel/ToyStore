@@ -10,5 +10,8 @@ namespace ToyStore.ViewModel
     {
         public Order Order { get; set; }
         public List<Order> OrderList { get; set; }
+        public OrderItem OrderItem { get; set; }
+        public List<OrderItem> OrderItemList { get; set; }
+
     }
 }

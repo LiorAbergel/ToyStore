@@ -16,21 +16,18 @@ namespace ToyStore.Models
         [Required(ErrorMessage = "Order ID is required.")]
         public int OrderId { get; set; }
 
+        [ForeignKey("OrderId")]
+        public virtual Order Order { get; set; }
+
         [Required(ErrorMessage = "Toy ID is required.")]
         public int ToyId { get; set; }
 
-        [Required(ErrorMessage = "Amount is required.")]
-        [Range(1, 1000, ErrorMessage = "Amount must be between 1 and 1000.")]
-        public int Amount { get; set; }
-
-        [Required(ErrorMessage = "Price is required.")]
-        [Range(1, 1000, ErrorMessage = "Price must be between $1 and $1000.")]
-        public decimal Price { get; set; }
-
-        [ForeignKey("OrderId")]
-        public Order Order { get; set; }
-
         [ForeignKey("ToyId")]
-        public Toy Toy { get; set; }
+        public virtual Toy Toy { get; set; }
+
+        [Required(ErrorMessage = "Quantity is required.")]
+        [Range(1, 1000, ErrorMessage = "Quantity must be between 1 and 1000.")]
+        public int Quantity { get; set; }
+
     }
 }

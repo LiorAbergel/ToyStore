@@ -11,6 +11,14 @@ html * {
     margin-left: 20px;
 }
 
+.product img {
+    /* Your CSS styles for the toy image */
+    width: 200px; /* Example width */
+    height: 200px; /* Maintain aspect ratio */
+    border: 1px solid #ccc; /* Example border */
+    /* Add more styles as needed */
+}
+
 
 .header {
     display: flex;
