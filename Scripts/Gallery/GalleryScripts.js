@@ -10,23 +10,31 @@ var toyData = JSON.parse(toyDataAttribute);
 function generateProduct(toy) {
     const product = document.createElement("div");
     product.classList.add("product");
+
+    // Check if the toy is out of stock
+    const isOutOfStock = toy.Amount <= 0;
+
     product.innerHTML = `
         <img src="${toy.ImagePath}" alt="${toy.Name} Image">
         <h2>${toy.Name}</h2>
         <p>Category: ${toy.Category.Name}</p>
         <p>Description: ${toy.Description}</p>
-        <p>Price: ${toy.Price}</p>
-        <p>Amount in stock: ${toy.Amount}</p>
+        <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
         <p>Age Group: ${toy.AgeGroup}</p>
-
+        <h3>Price: ${toy.Price} $</h3>
         <div class="buttons">
-            <button class="add-to-cart">Add to Cart</button>
-            <button class="buy-now">Buy Now</button>
+            ${toy.Amount > 0 ? `
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="buy-now">Buy Now</button>
+            ` : `
+                <button class="notify-me">Notify Me</button>
+            `}
         </div>
         <!-- You can add more details here -->
     `;
     return product;
 }
+
 
 
 
