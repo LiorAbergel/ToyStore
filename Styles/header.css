@@ -160,6 +160,8 @@ footer {
     box-sizing: border-box;
     padding: 20px;
     text-align: center;
+    background-color: #333;
+    color: #fff;
 }
 
 .login-form {
@@ -219,4 +221,10 @@ footer {
     display: grid;
     grid-template-columns: 1fr; /* Create a single column that takes all available space */
 }
+
+body {
+    background: linear-gradient(to bottom, #ff0000, #0000ff);
+}
+
+
 
