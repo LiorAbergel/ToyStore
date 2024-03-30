@@ -18,14 +18,7 @@ header, main {
     padding: 20px;
 }
 
-.title-container {
-    text-align: center;
-    background-color: #d0d0d0;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-}
+
 
 
 
@@ -57,6 +50,16 @@ nav li {
     text-align: center;
 }
 
+.title-container {
+    text-align: center;
+    background-color: #d0d0d0;
+    padding: 0px;
+    border-radius: 8px;
+    margin-bottom: 0px;
+    box-sizing: border-box;
+    height: 50%;
+}
+
 .toys-container {
     background-color: #a0a0a0;
     padding: 20px;
@@ -65,6 +68,7 @@ nav li {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: auto;
 }
 
 
@@ -101,7 +105,7 @@ nav li {
 
 .right-column {
     grid-column: 2 / span 1;
-    display: flex;
+    display: grid;
     flex-direction: row-reverse;
 }
 

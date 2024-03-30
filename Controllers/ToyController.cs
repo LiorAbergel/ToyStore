@@ -23,27 +23,13 @@ namespace ToyStore.Controllers
             };
         }
 
-        public ActionResult Index()
+        public ActionResult Search(string searchText)
         {
-            return View(_toyViewModel);
-        }
-
-        public ActionResult Search(string categoryName)
-        {
-            string searchValue;
-            if (categoryName == null) { searchValue = Request.Form["searchText"].ToString().ToLower(); }
-            else { searchValue = categoryName; }
-
-            List<Toy> toyList = _toyDAL.Toys.Where(x => x.Name.Contains(searchValue)).ToList();
-            toyList.AddRange(_toyDAL.Toys.Where(x => x.Category.Name.Contains(searchValue)).ToList());
-            toyList.AddRange(_toyDAL.Toys.Where(x => x.Description.Contains(searchValue)).ToList());
-
-            // remove duplicates from the list
-            toyList = toyList.Distinct().ToList();
+            List<Toy> toyList = _toyDAL.SearchToy(searchText);
 
             ToyViewModel tvm = new ToyViewModel {ToyList = toyList};
 
-            ViewBag.SearchValue = searchValue; // Pass the search value using ViewBag
+            ViewBag.SearchValue = searchText; // Pass the search value using ViewBag
 
             return View("Search", tvm);
         }

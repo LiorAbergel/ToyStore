@@ -34,20 +34,28 @@
             <div class="sign-in">
                 @if (Session["IsLoggedIn"] != null && Session["IsLoggedIn"].ToString() == "true")
                 {
-                    <a href="@Url.Action("Profile", "Customer")" class="signin-button">Profile</a>
-                    <a href="@Url.Action("LogOut", "Customer")" class="signin-button">Log Out</a>
+                    <h6>Welcome back, @Session["CustomerName"] !</h6>
+
+                    if (Session["Role"] != null && Session["Role"].Equals("Admin"))
+                    {
+                        <a href="@Url.Action("Index", "Admin")" class="signin-button">Admin Panel</a>
+                        <a href="@Url.Action("LogOut", "Customer")" class="signin-button">Log Out</a>
+                    }
+
+                    else
+                    {
+                        <a href="@Url.Action("Profile", "Customer")" class="signin-button">Profile</a>
+                        <a href="@Url.Action("LogOut", "Customer")" class="signin-button">Log Out</a>
+                    }
                 }
+
                 else
                 {<a href="@Url.Action("LogIn", "Customer")" class="signin-button">Sign In</a>}
 
-                @if (Session["Role"] != null && Session["Role"].Equals("Admin"))
-                {
-                    <h2>Hello Dear Admin !</h2>
-                }
             </div>
 
             <div class="search-bar">
-                @using (Html.BeginForm("Search", "Toy", FormMethod.Post, new { @class = "search-form" }))
+                @using (Html.BeginForm("Search", "Toy", FormMethod.Get))
                 {
                     <input id="searchText" name="searchText" type="search" placeholder="Search for toys" class="search-input" />
                     <button id="searchButton" type="submit" class="search-button">
@@ -75,12 +83,11 @@
             <span class="icon"></span>
         </button>
 
-
         <nav class="menu">
             <ul>
                 @foreach (var category in categories)
                 {
-                    <li><a href="@Url.Action("Search", "Toy", new { categoryName = category.Name })">@category.Name</a></li>
+                    <li><a href="@Url.Action("Search", "Toy", new { searchText = category.Name })">@category.Name</a></li>
                 }
             </ul>
 

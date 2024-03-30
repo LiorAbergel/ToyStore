@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using ToyStore.Models;
 using ToyStore.DAL;
 using ToyStore.ViewModel;
+using System.Web.UI;
 
 
 namespace ToyStore.Controllers
@@ -70,6 +71,7 @@ namespace ToyStore.Controllers
                     Session["Customer"] = customer;
                     Session["IsLoggedIn"] = "true";
                     Session["Role"] = customer.Role;
+                    Session["CustomerName"] = customer.FirstName + " " + customer.LastName;
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -85,9 +87,7 @@ namespace ToyStore.Controllers
 
         public ActionResult LogOut()
         {
-            Session.Remove("Customer");
-            Session.Remove("IsLoggedIn");
-            Session.Remove("Role");
+            Session.Contents.RemoveAll();
             return RedirectToAction("Index", "Home");
         }
 

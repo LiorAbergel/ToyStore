@@ -23,12 +23,10 @@ function generateProduct(toy) {
         <p>Age Group: ${toy.AgeGroup}</p>
         <h3>Price: ${toy.Price} $</h3>
         <div class="buttons">
-            ${toy.Amount > 0 ? `
-                 <input type="number" name="amount" value="1" min="1" max="${toy.Amount}" oninput="validity.valid||(value='');" />
-                <button class="add-to-car" onclick="showCartAddingConfirmation('${toy.Name}', this.previousElementSibling.value)">Add To Cart</button>
-                <button class="buy-now" onclick="">Buy Now</button>
-            ` : `
-                <button class="notify-me" onclick="showNotifyConfirmation('${toy.Name}')">Notify Me</button>
+            <button class="edit" onclick="editToy(${JSON.stringify(toy)})">Edit</button>
+            ${toy.Amount > 0 ? `` : `
+            <input type="number" name="amount" value="1" min="1" max="100" oninput="validity.valid||(value='');" />
+            <button class="order" onclick="showOrderConfirmation('${toy.Name}', this.previousElementSibling.value)">Order Item</button>
             `}
         </div>
         <!-- You can add more details here -->
@@ -36,15 +34,10 @@ function generateProduct(toy) {
     return product;
 }
 
-function showCartAddingConfirmation(toyName, amount) {
+// Function to show order confirmation message
+function showOrderConfirmation(toyName, amount) {
     alert(`Order placed successfully!\nToy : ${toyName}\nAmount : ${amount}`); // Display an alert message
 }
-
-// Function to show notifty confirmation message
-function showNotifyConfirmation(toyName) {
-    alert(`Got it!\nYou'll be notified when ${toyName} is back in stock`); // Display an alert message
-}
-
 
 // Function to render a batch of products
 function renderProducts(startIndex, batchSize) {

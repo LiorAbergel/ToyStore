@@ -42,6 +42,12 @@
 .buttons {
     margin-top: 20px; /* Push buttons to the bottom */
     align-self:center; /* Align buttons to the end of the container */
+/*    display: flex;
+    flex-direction: column;
+    justify-content: space-between;*/
+
 }
+
+
 
 
