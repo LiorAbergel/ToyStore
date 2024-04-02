@@ -7,7 +7,7 @@
 
 <h2>Toys</h2>
 <head>
-    <link rel="stylesheet" href="~/Styles/gallery.css">
+    <link rel="stylesheet" href="~/Styles/adminToys.css">
 </head>
 
 <div class="container" id="products-container">
@@ -15,6 +15,9 @@
 </div>
 
 <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))' style="display:none;"></div>
+<div id="categoryData" data-categorydata='@Html.Raw(Json.Encode(Model.CategoryList))' style="display:none;"></div>
+<div id="ageGroupData" data-agegroupdata='@Html.Raw(Json.Encode(Model.AgeGroupList))' style="display:none;"></div>
+
 <script src="~/Scripts/Admin/AdminToysScript.js"></script>
 
 

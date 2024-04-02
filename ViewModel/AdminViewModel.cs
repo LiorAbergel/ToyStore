@@ -12,9 +12,6 @@ namespace ToyStore.ViewModel
         public List<Toy> ToyList { get; set; }
         public Category Category { get; set; }
         public List<Category> CategoryList { get; set; }
-
-
-
         public Customer Customer { get; set; }
         public List<Customer> CustomerList { get; set; }
         public Order Order { get; set; }

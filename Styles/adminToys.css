@@ -1,4 +1,8 @@
-﻿body {
+﻿.hidden {
+    display: none;
+}
+
+body {
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
@@ -39,6 +43,7 @@
         margin-top: 0;
     }
 
+
 .buttons {
     margin-top: 20px; /* Push buttons to the bottom */
     align-self:center; /* Align buttons to the end of the container */
@@ -47,6 +52,33 @@
     justify-content: space-between;*/
 
 }
+
+.product-front,
+.product-back {
+/*    position: absolute;
+    width: 100%;
+    height: 100%;*/
+    backface-visibility: hidden; /* Hide back side by default */
+    transition: transform 0.5s; /* Apply transition effect for smooth flip animation */
+}
+
+.product-front {
+    z-index: 2; /* Front side should be on top initially */
+}
+
+.product-back {
+    transform: rotateY(180deg); /* Start with back side flipped */
+}
+
+.product.flip .product-front {
+    transform: rotateY(-180deg); /* Flip front side to back */
+}
+
+.product.flip .product-back {
+    transform: rotateY(0); /* Flip back side to front */
+}
+
+
 
 
 

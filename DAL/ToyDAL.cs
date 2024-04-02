@@ -24,17 +24,30 @@ namespace ToyStore.DAL
             return Toys.ToList();
         }
 
-        public void AddToy(Toy toy)
+        public void Add(Toy toy)
         {
             Toys.Add(toy);
             SaveChanges();
         }
 
-        public void UpdateToy(Toy toy)
+        public void EditToy(Toy toy)
         {
-            Entry(toy).State = EntityState.Modified;
-            SaveChanges();
+            // Check if the toy exists in the context
+            Toy existingToy = Toys.Find(toy.ToyId);
+            if (existingToy != null)
+            {
+                // Update the properties of the existing toy
+                Entry(existingToy).CurrentValues.SetValues(toy);
+                SaveChanges();
+            }
+            else
+            {
+                // Toy not found, handle accordingly (e.g., throw exception or log error)
+                // For now, let's log an error
+                Console.WriteLine("Error: Toy not found for editing.");
+            }
         }
+
 
         public void DeleteToy(int id)
         {

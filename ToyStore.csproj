@@ -176,6 +176,7 @@
     <Content Include="Images\Toy_Story_logo.svg.png" />
     <Content Include="Scripts\Admin\AdminToysScript.js" />
     <Content Include="Scripts\Header\HeaderScript.js" />
+    <Content Include="Styles\adminToys.css" />
     <Content Include="Styles\gallery.css" />
     <Content Include="Styles\header.css" />
     <Content Include="Styles\home.css" />

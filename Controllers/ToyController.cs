@@ -12,14 +12,17 @@ namespace ToyStore.Controllers
     public class ToyController : BaseController
     {
         private readonly ToyDAL _toyDAL;
+        private readonly CategoryDAL _categoryDAL;
         private readonly ToyViewModel _toyViewModel;
         public ToyController()  
         {
             _toyDAL = new ToyDAL();
+            _categoryDAL = new CategoryDAL();
             _toyViewModel = new ToyViewModel
             {
                 Toy = new Toy(),
-                ToyList = _toyDAL.Toys.ToList()
+                ToyList = _toyDAL.Toys.ToList(),
+                CategoryList = _categoryDAL.Categories.ToList()
             };
         }
 
