@@ -21,12 +21,13 @@ namespace ToyStore.DAL
         }
         public List<Toy> GetToys()
         {
-            return Toys.ToList();
+            return Toys.OrderByDescending(toy => toy.ToyId).ToList();
         }
 
-        public void Add(Toy toy)
+        public void AddToy(Toy toy)
         {
             Toys.Add(toy);
+
             SaveChanges();
         }
 
@@ -47,8 +48,6 @@ namespace ToyStore.DAL
                 Console.WriteLine("Error: Toy not found for editing.");
             }
         }
-
-
         public void DeleteToy(int id)
         {
             Toy toy = Toys.Find(id);

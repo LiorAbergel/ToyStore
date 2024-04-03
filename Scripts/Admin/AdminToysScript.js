@@ -1,6 +1,4 @@
-﻿const productsContainer = document.getElementById('products-container');
-
-// Retrieve the JSON data from the data attribute
+﻿// Retrieve the data from the HTML
 var toyDataElement = document.getElementById('toyData');
 var toyDataAttribute = toyDataElement.getAttribute('data-toydata');
 
@@ -15,36 +13,80 @@ var toyData = JSON.parse(toyDataAttribute);
 var categoryData = JSON.parse(categoryDataAttribute);
 var ageGroupData = JSON.parse(ageGroupDataAttribute);
 
+// Get the products container element
+const productsContainer = document.getElementById('products-container');
+
+// Initial rendering of products with dynamically calculated batch size
+let initialBatchSize = calculateBatchSize();
+appendAddToyButton();
+renderProducts(0, initialBatchSize);
+
+// Function to append the "Add Toy" button to a specific element
+function appendAddToyButton() {
+    var buttonContainer = document.getElementById('button-container');
+    if (buttonContainer) {
+        var button = document.createElement('button');
+        button.id = 'add-toy-button';
+        button.type = 'button';
+        button.textContent = 'Add Toy';
+        button.onclick = addToy;
+        buttonContainer.appendChild(button);
+    }
+}
 
 function generateProduct(toy) {
     const product = document.createElement("div");
     product.classList.add("product");
+
+    const backSide = document.createElement("div");
+    backSide.classList.add("product-back");
+
+    const frontSide = document.createElement("div");
+    frontSide.classList.add("product-front");
+
+
+    if (toy === undefined) {
+        // Create a new toy object with default values
+        toy = {
+            ToyId: 0,
+            Category: categoryData[0],
+            Name: "New Toy",
+            Description: "Description",
+            Amount: 0,
+            AgeGroup: ageGroupData[0],
+            Price: 1,
+            ImagePath: "https://via.placeholder.com/150",
+        };
+
+        frontSide.classList.add('hidden');
+        backSide.classList.remove('hidden');
+        product.classList.toggle('flip');
+    }
+
+    else {
+        // Show the front side of the card
+        backSide.classList.add('hidden');
+    }
+
     product.setAttribute("id", `${toy.ToyId}`); // Set ID attribute with toy ID
 
     // Check if the toy is out of stock
     const isOutOfStock = toy.Amount <= 0;
 
-    // Create front and back div elements
-    const frontSide = document.createElement("div");
-    frontSide.classList.add("product-front");
-
-    const backSide = document.createElement("div");
-    backSide.classList.add("product-back");
-    backSide.classList.add('hidden');
-
     // Set inner HTML content for front side
     frontSide.innerHTML = `
-    <img src="${toy.ImagePath}" alt="${toy.Name} Image">
-    <h2>${toy.Name}</h2>
-    <p>Category: ${toy.Category.Name}</p>
-    <p>Description: ${toy.Description}</p>
-    <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
-    <p>Age Group: ${toy.AgeGroup}</p>
-    <h3>Price: ${toy.Price} $</h3>
-    <div class="buttons">
-        <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
-    </div>
-`;
+        <img src="${toy.ImagePath}" alt="${toy.Name} Image">
+        <h2>${toy.Name}</h2>
+        <p>Category: ${toy.Category.Name}</p>
+        <p>Description: ${toy.Description}</p>
+        <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
+        <p>Age Group: ${toy.AgeGroup}</p>
+        <h3>Price: ${toy.Price} $</h3>
+        <div class="buttons">
+            <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
+            <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
+        </div>
+    `;
 
     const categoryOptions =
         categoryData.map(category => `<option value="${category.Name}"></option>`).join('');
@@ -101,8 +143,6 @@ function generateProduct(toy) {
     product.appendChild(frontSide);
     product.appendChild(backSide);
 
-    // You can add more details or functionality here if needed
-
     return product;
 }
 function editToy(toyId) {
@@ -120,6 +160,34 @@ function editToy(toyId) {
     // Toggle flip class to initiate flip animation
     productDiv.classList.toggle('flip');
 }
+function deleteToy(toyId) {
+    // Send a POST request to the server
+    fetch(`/Admin/DeleteToy`, {
+        method: 'POST',
+        body: JSON.stringify({ id: toyId }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // If the request was successful, remove the toy's element from the DOM
+            const productDiv = document.getElementById(`${toyId}`);
+            if (productDiv) {
+                productDiv.remove();
+            } else {
+                console.error(`Product with ID ${toyId} not found.`);
+            }
+
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
 
 function saveToy(toyId) {
     const productDiv = document.getElementById(`${toyId}`);
@@ -138,10 +206,11 @@ function saveToy(toyId) {
     const imagePath = productDiv.querySelector('#imagePath').value;
 
     // Create a toy object
-    let toy = { toyId, categoryId, category, name, description, amount, ageGroup, price, imagePath };
+    let toy = { toyId, categoryId, name, description, amount, ageGroup, price, imagePath };
 
+    const path = (toyId === 0) ? '/Admin/AddToy' : '/Admin/EditToy';
     // Send a POST request to the server
-    fetch('/Admin/EditToy', {
+    fetch(path, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -151,30 +220,44 @@ function saveToy(toyId) {
         .then(response => response.json())
         .then(data => {
             // Handle the data returned by the server
+            toy = data.toy;
+
+            // Update the front side with the new values
+            frontSide.innerHTML = `
+                <img src="${toy.ImagePath}" alt="${toy.Name} Image">
+                <h2>${toy.Name}</h2>
+                <p>Category: ${toy.Category.Name}</p>
+                <p>Description: ${toy.Description}</p>
+                <p>Availability: ${toy.Amount <= 0 ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
+                <p>Age Group: ${toy.AgeGroup}</p>
+                <h3>Price: ${toy.Price} $</h3>
+                <div class="buttons">
+                    <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
+                    <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
+                </div>
+                `;
+
+            productDiv.setAttribute("id", `${toy.ToyId}`); // Set ID attribute with toy ID
+
+            // Toggle flip class to initiate
+            backSide.classList.add('hidden');
+            frontSide.classList.remove('hidden');
+            productDiv.classList.toggle('flip');
+
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 
-    // Update the front side with the new values
-    frontSide.innerHTML = `
-        <img src="${toy.imagePath}" alt="${toy.name} Image">
-        <h2>${toy.name}</h2>
-        <p>Category: ${toy.category.Name}</p>
-        <p>Description: ${toy.description}</p>
-        <p>Availability: ${toy.amount <= 0 ? '<span style="color: red;">Out of Stock</span>' : toy.amount}</p>
-        <p>Age Group: ${toy.ageGroup}</p>
-        <h3>Price: ${toy.price} $</h3>
-        <div class="buttons">
-            <button class="edit" onclick="editToy(${toy.toyId})">Edit</button>
-        </div>
-    `;
 
-    // Toggle flip class to initiate
-    backSide.classList.add('hidden');
-    frontSide.classList.remove('hidden');
-    productDiv.classList.toggle('flip');
 }
+
+function addToy() {
+    product = generateProduct();
+    productsContainer.prepend(product);
+}
+
+
 
 // Function to show order confirmation message
 function showOrderConfirmation(toyName, amount) {
@@ -201,10 +284,6 @@ function calculateBatchSize() {
         return 30; // Show 9 products for large screens
     }
 }
-
-// Initial rendering of products with dynamically calculated batch size
-let initialBatchSize = calculateBatchSize();
-renderProducts(0, initialBatchSize);
 
 // Scroll event handler to load more products
 window.addEventListener("scroll", () => {

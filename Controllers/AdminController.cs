@@ -54,6 +54,30 @@ namespace ToyStore.Controllers
         {
             _toyDAL.EditToy(toy);
 
+            Toy editedToy = _toyDAL.GetToyById(toy.ToyId); // Assuming you have a method to get a toy by its ID
+            editedToy.Category = _categoryDAL.GetCategoryById(editedToy.CategoryId); // Assuming you have a method to get a category by its ID
+
+            // Return a response
+            return Json(new { success = true, toy = editedToy });
+        }
+
+        [HttpPost]
+        public ActionResult AddToy(Toy toy)
+        {
+            _toyDAL.AddToy(toy);
+
+            Toy addedToy = _toyDAL.GetToyById(toy.ToyId); // Assuming you have a method to get a toy by its ID
+            addedToy.Category = _categoryDAL.GetCategoryById(addedToy.CategoryId); // Assuming you have a method to get a category by its ID
+
+            // Return a response
+            return Json(new { success = true, toy = addedToy });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteToy(int id)
+        {
+            _toyDAL.DeleteToy(id);
+
             // Return a response
             return Json(new { success = true });
         }
