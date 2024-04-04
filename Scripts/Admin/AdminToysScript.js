@@ -13,6 +13,9 @@ var toyData = JSON.parse(toyDataAttribute);
 var categoryData = JSON.parse(categoryDataAttribute);
 var ageGroupData = JSON.parse(ageGroupDataAttribute);
 
+// Sort the ageGroupData array alphabetically
+ageGroupData.sort((a, b) => a.localeCompare(b));
+
 // Get the products container element
 const productsContainer = document.getElementById('products-container');
 
@@ -73,36 +76,35 @@ function generateProduct(toy) {
     // Check if the toy is out of stock
     const isOutOfStock = toy.Amount <= 0;
 
-    // Set inner HTML content for front side
+    
     frontSide.innerHTML = `
-        <img src="${toy.ImagePath}" alt="${toy.Name} Image">
-        <h2>${toy.Name}</h2>
-        <p>Category: ${toy.Category.Name}</p>
-        <p>Description: ${toy.Description}</p>
-        <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
-        <p>Age Group: ${toy.AgeGroup}</p>
-        <h3>Price: ${toy.Price} $</h3>
-        <div class="buttons">
-            <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
-            <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
-        </div>
-    `;
+    <img src="${toy.ImagePath}" alt="${toy.Name} Image">
+    <h2>${toy.Name}</h2>
+    <p>Category: ${toy.Category.Name}</p>
+    <p>Description: ${toy.Description}</p>
+    <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
+    ${isOutOfStock ? `
+    <input type="number" name="amount" value="1" min="1" max="99" oninput="validity.valid||(value='');" />
+    <button class="restock" onclick="showOrderConfirmation('${toy.Name}', this.previousElementSibling.value)">Restock</button>
+    ` : ``}
+    <p>Age Group: ${toy.AgeGroup}</p>
+    <h3>Price: ${toy.Price} $</h3>
+    <div class="buttons">
+        <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
+        <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
 
-    const categoryOptions =
-        categoryData.map(category => `<option value="${category.Name}"></option>`).join('');
-
-    const ageGroupOptions =
-        ageGroupData.map(ageGroup => `<option value="${ageGroup}"></option>`).join('');
+    </div>
+`;
 
     backSide.innerHTML = `
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="${toy.Name}">
 
         <label for="category">Category:</label>
-        <input list="categoryOptions" id="category" name="category" value="${toy.Category.Name}">
-        <datalist id="categoryOptions">
-            ${categoryOptions}
-        </datalist>
+        <select id="category" name="category">
+            <option value="${toy.Category.Name}" selected>${toy.Category.Name}</option>
+            ${categoryData.filter(category => category.Name !== toy.Category.Name).map(category => `<option value="${category.Name}">${category.Name}</option>`).join('')}
+        </select>
 
         <label for="description">Description:</label>
         <input type="text" id="description" name="description" value="${toy.Description}">
@@ -111,11 +113,10 @@ function generateProduct(toy) {
         <input type="amount" id="amount" name="amount" value="${toy.Amount}" min="0">
 
         <label for="ageGroup">Age Group:</label>
-        <input list="ageGroupOptions" id="ageGroup" name="ageGroup" value="${toy.AgeGroup}">
-        <datalist id="ageGroupOptions">
-            ${ageGroupOptions}
-        </datalist>
-           
+        <select id="ageGroup" name="ageGroup">
+            <option value="${toy.AgeGroup}" selected>${toy.AgeGroup}</option>
+            ${ageGroupData.filter(ageGroup => ageGroup !== toy.AgeGroup).map(ageGroup => `<option value="${ageGroup}">${ageGroup}</option>`).join('')}
+        </select>
 
         <label for="price">Price:</label>
         <input type="number" id="price" name="price" value="${toy.Price}" min="0" step="0.01">
