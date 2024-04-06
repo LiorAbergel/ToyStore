@@ -22,6 +22,7 @@ const productsContainer = document.getElementById('products-container');
 // Initial rendering of products with dynamically calculated batch size
 let initialBatchSize = calculateBatchSize();
 appendAddToyButton();
+appendAddCategoryButton();
 renderProducts(0, initialBatchSize);
 
 // Function to append the "Add Toy" button to a specific element
@@ -37,6 +38,80 @@ function appendAddToyButton() {
     }
 }
 
+function appendAddCategoryButton() {
+    var buttonContainer = document.getElementById('button-container');
+    if (buttonContainer) {
+        var button = document.createElement('button');
+        button.id = 'add-category-button';
+        button.type = 'button';
+        button.textContent = 'Add Category';
+        button.onclick = addCategory;
+        buttonContainer.appendChild(button);
+    }
+}
+
+function addCategory() {
+    var buttonContainer = document.getElementById('button-container');
+
+    // Create input for category name
+    var categoryNameInput = document.createElement('input');
+    categoryNameInput.type = 'text';
+    categoryNameInput.placeholder = 'Category Name';
+    categoryNameInput.id = 'category-name';
+
+    // Create input for category description
+    var categoryDescriptionInput = document.createElement('input');
+    categoryDescriptionInput.type = 'text';
+    categoryDescriptionInput.placeholder = 'Category Description';
+    categoryDescriptionInput.id = 'category-description';
+
+    // Create a button to save the category
+    var saveCategoryButton = document.createElement('button');
+    saveCategoryButton.id = 'save-category-button';
+    saveCategoryButton.type = 'button';
+    saveCategoryButton.textContent = 'Save Category';
+    saveCategoryButton.onclick = saveCategory;
+
+    // Append inputs to the category container
+    buttonContainer.appendChild(categoryNameInput);
+    buttonContainer.appendChild(categoryDescriptionInput);
+    buttonContainer.appendChild(saveCategoryButton);
+}
+function saveCategory() {
+    const name = document.getElementById('category-name').value;
+    const description = document.getElementById('category-description').value;
+
+    let category = { name, description }
+
+    // Send a POST request to the server
+    fetch('/Admin/AddCategory', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(category),
+    })
+        .then(response => response.json())
+        .then(data => {
+            category = data.category;
+
+            // Append the new category to the categoryData array
+            categoryData.push(category);
+
+            // Append the new category to the categoryDataElement
+            categoryDataElement.setAttribute('data-categorydata', JSON.stringify(categoryData));
+
+            // Append the new category to the select element
+            var categorySelect = document.getElementById('category');
+            var newOption = document.createElement('option');
+            newOption.value = category.Name;
+            newOption.textContent = category.Name;
+            categorySelect.appendChild(newOption);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
 function generateProduct(toy) {
     const product = document.createElement("div");
     product.classList.add("product");
@@ -188,8 +263,6 @@ function deleteToy(toyId) {
             console.error('Error:', error);
         });
 }
-
-
 function saveToy(toyId) {
     const productDiv = document.getElementById(`${toyId}`);
     const frontSide = productDiv.querySelector('.product-front');
@@ -252,20 +325,14 @@ function saveToy(toyId) {
 
 
 }
-
 function addToy() {
     product = generateProduct();
     productsContainer.prepend(product);
 }
-
-
-
 // Function to show order confirmation message
 function showOrderConfirmation(toyName, amount) {
     alert(`Order placed successfully!\nToy : ${toyName}\nAmount : ${amount}`); // Display an alert message
 }
-
-
 // Function to render a batch of products
 function renderProducts(startIndex, batchSize) {
     const endIndex = Math.min(startIndex + batchSize, toyData.length);
@@ -273,7 +340,6 @@ function renderProducts(startIndex, batchSize) {
         productsContainer.appendChild(generateProduct(toyData[i]));
     }
 }
-
 // Function to calculate batch size dynamically based on screen size
 function calculateBatchSize() {
     const screenWidth = window.innerWidth;
@@ -285,7 +351,6 @@ function calculateBatchSize() {
         return 30; // Show 9 products for large screens
     }
 }
-
 // Scroll event handler to load more products
 window.addEventListener("scroll", () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
@@ -300,7 +365,6 @@ window.addEventListener("scroll", () => {
         }
     }
 });
-
 // Event listener to recalculate batch size if window is resized
 window.addEventListener("resize", () => {
     const newBatchSize = calculateBatchSize();
@@ -310,7 +374,6 @@ window.addEventListener("resize", () => {
         renderProducts(0, newBatchSize);
     }
 });
-
 // Event listener to recalculate batch size if window is resized
 window.addEventListener("resize", () => {
     const newBatchSize = calculateBatchSize();

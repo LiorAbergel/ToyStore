@@ -11,7 +11,6 @@ namespace ToyStore.ViewModel
         public Toy Toy { get; set; }
         public List<Toy> ToyList { get; set; }
         public List<Category> CategoryList { get; set; }
-
         public List<string> AgeGroupList { get; set; }
     }   
 }

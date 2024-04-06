@@ -4,29 +4,20 @@
 
 @{ViewBag.Title = "Search";}
 
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ViewBag.Title</title>
     <link rel="stylesheet" href="~/Styles/gallery.css">
-
 </head>
 
-<body>
+<h4>You searched for : @ViewBag.SearchValue</h4>
 
-    <h4>You searched for : @ViewBag.SearchValue</h4>
+<div class="container" id="products-container">
+    <!-- Products will be dynamically added here -->
+</div>
 
-    <div class="container" id="products-container">
-        <!-- Products will be dynamically added here -->
-    </div>
+<div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))' style="display:none;"></div>
+<div id="categoryData" data-categorydata='@Html.Raw(Json.Encode(Model.CategoryList))' style="display:none;"></div>
+<div id="ageGroupData" data-agegroupdata='@Html.Raw(Json.Encode(Model.AgeGroupList))' style="display:none;"></div>
 
-    <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))' style="display:none;"></div>
-    <script src="~/Scripts/Gallery/GalleryScripts.js"></script>
+<script src="~/Scripts/Gallery/GalleryScripts.js"></script>
 
-</body>
-</html>
 

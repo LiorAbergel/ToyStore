@@ -6,14 +6,15 @@ using System.Web.Mvc;
 using ToyStore.Models;
 using ToyStore.DAL;
 using ToyStore.ViewModel;
+using System.Web.UI;
 
 namespace ToyStore.Controllers
 {
     public class ToyController : BaseController
     {
-        private readonly ToyDAL _toyDAL;
-        private readonly CategoryDAL _categoryDAL;
-        private readonly ToyViewModel _toyViewModel;
+        protected readonly ToyDAL _toyDAL;
+        protected readonly CategoryDAL _categoryDAL;
+        protected readonly ToyViewModel _toyViewModel;
         public ToyController()  
         {
             _toyDAL = new ToyDAL();
@@ -22,24 +23,42 @@ namespace ToyStore.Controllers
             {
                 Toy = new Toy(),
                 ToyList = _toyDAL.Toys.ToList(),
-                CategoryList = _categoryDAL.Categories.ToList()
+                CategoryList = _categoryDAL.Categories.ToList(),
+                AgeGroupList = new List<string>()
             };
+
+            foreach (Toy toy in _toyViewModel.ToyList)
+            {
+                if (!_toyViewModel.AgeGroupList.Contains(toy.AgeGroup))
+                {
+                    _toyViewModel.AgeGroupList.Add(toy.AgeGroup);
+                }
+            }
         }
 
-        public ActionResult Search(string searchText)
+        public ActionResult Gallery(string searchText)
         {
-            List<Toy> toyList = _toyDAL.SearchToy(searchText);
+            // if search text is not null, then search for the toy
+            if (searchText != null)
+            {
+                List<Toy> toyList = _toyDAL.SearchToy(searchText);
+                ToyViewModel tvm = new ToyViewModel()
+                {
+                    Toy = new Toy(),
+                    ToyList = toyList,
+                    CategoryList = _categoryDAL.Categories.ToList(),
+                    AgeGroupList = new List<string>()
+                };
 
-            ToyViewModel tvm = new ToyViewModel {ToyList = toyList};
+                ViewBag.SearchValue = searchText; // Pass the search value using ViewBag
 
-            ViewBag.SearchValue = searchText; // Pass the search value using ViewBag
+                return View(tvm);
+            }
 
-            return View("Search", tvm);
-        }
-
-        public ActionResult Gallery()
-        {
-            return View(_toyViewModel);
+            else
+            {
+                return View(_toyViewModel);
+            }
         }
 
 

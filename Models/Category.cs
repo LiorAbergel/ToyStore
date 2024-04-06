@@ -12,7 +12,6 @@ namespace ToyStore.Models
     {
         [Key]
         [Required(ErrorMessage = "Please enter a valid Id.")]
-        [Range(1, int.MaxValue)]
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "Please enter the name of the category.")]

@@ -11,34 +11,8 @@ using ToyStore.ViewModel;
 namespace ToyStore.Controllers
 {
     //[Authorize(Roles = "Admin")] - remember to uncomment this line !!!!!!!!!!!!!!
-    public class AdminController : BaseController
+    public class AdminController : ToyController
     {
-        private readonly ToyDAL _toyDAL;
-        private readonly ToyViewModel _toyViewModel;
-
-        private readonly CategoryDAL _categoryDAL;
-
-        public AdminController()
-        {
-            _toyDAL = new ToyDAL();
-            _categoryDAL = new CategoryDAL();
-            _toyViewModel = new ToyViewModel
-            {
-                Toy = new Toy(),
-                ToyList = _toyDAL.GetToys(),
-                CategoryList = _categoryDAL.Categories.ToList(),
-                AgeGroupList = new List<string>()
-            };
-
-            foreach (Toy toy in _toyViewModel.ToyList)
-            {
-                if (!_toyViewModel.AgeGroupList.Contains(toy.AgeGroup))
-                {
-                    _toyViewModel.AgeGroupList.Add(toy.AgeGroup);
-                }
-            }
-        }
-
         // GET: Admin
         public ActionResult Index()
         {
@@ -80,6 +54,17 @@ namespace ToyStore.Controllers
 
             // Return a response
             return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public ActionResult AddCategory(Category category)
+        {
+            _categoryDAL.AddCategory(category);
+
+            Category addedCategory = _categoryDAL.GetCategoryById(category.CategoryId); // Assuming you have a method to get a category by its ID
+
+            // Return a response
+            return Json(new { success = true, category = addedCategory });
         }
 
         public ActionResult Categories()
