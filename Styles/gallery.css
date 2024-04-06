@@ -72,6 +72,22 @@
     padding: 10px; /* Add some padding for space */
 }
 
+select {
+    /* Your CSS styles for the select element */
+    /* For example: */
+    padding: 12px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-right : 10px;
+}
+
+#categoryFilterBar input {
+    margin-right: 5px;
+}
+
 
 
 

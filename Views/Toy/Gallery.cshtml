@@ -5,59 +5,50 @@
 @{ViewBag.Title = "Gallery";}
 
 
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ViewBag.Title</title>
     <link rel="stylesheet" href="~/Styles/gallery.css">
-
 </head>
 
-<body>
+@if (ViewBag.SearchValue == null) {<h4>Toy Gallery</h4>}
+else {<h4>You searched for : @ViewBag.SearchValue</h4>}
 
-    <div id="filterSortContainer">
+<div id="filterSortContainer">
 
-        <div id="categoryFilterBar">
-            <!-- Checkboxes will be dynamically added here -->
-        </div>
-
-        <select id="sort-options">
-            <option value="popular-desc">Most Popular</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="category-asc">Category</option>
-            <option value="name-asc">Name: A to Z</option>
-            <option value="name-desc">Name: Z to A</option>
-        </select>
+    <div id="categoryFilterBar">
+        <!-- Checkboxes will be dynamically added here -->
     </div>
 
+    <select id="age-group-options">
+        <!-- Options will be dynamically added here -->
+        @*@{
+            foreach (var ageGroup in Model.AgeGroupList)
+            {
+                <option value="@ageGroup">@ageGroup</option>
+            }
+        }*@
+    </select>
+
+    <select id="sort-options">
+        <option value="popular-desc">Most Popular</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="category-asc">Category</option>
+        <option value="name-asc">Name: A to Z</option>
+        <option value="name-desc">Name: Z to A</option>
+    </select>
 
 
 
-    <div id="filter-menu" style="display: none;">
-        <!-- Your filtering options and controls here -->
-        <label for="filterCategory">Filter by Category:</label>
-        <select id="filter-category"></select>
+</div>
 
-        <!-- Other filtering options can be added here -->
+<div class="container" id="products-container">
+    <!-- Products will be dynamically added here -->
+</div>
 
-        <button id="applyFilterButton">Apply Filter</button>
-    </div>
+<div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))' style="display:none;"></div>
+<div id="categoryData" data-categorydata='@Html.Raw(Json.Encode(Model.CategoryList))' style="display:none;"></div>
+<div id="ageGroupData" data-agegroupdata='@Html.Raw(Json.Encode(Model.AgeGroupList))' style="display:none;"></div>
 
-    <div class="container" id="products-container">
-        <!-- Products will be dynamically added here -->
-    </div>
-
-    <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))' style="display:none;"></div>
-    <div id="categoryData" data-categorydata='@Html.Raw(Json.Encode(Model.CategoryList))' style="display:none;"></div>
-    <div id="ageGroupData" data-agegroupdata='@Html.Raw(Json.Encode(Model.AgeGroupList))' style="display:none;"></div>
-
-    <script src="~/Scripts/Gallery/GalleryScripts.js"></script>
-
-</body>
-</html>
+<script src="~/Scripts/Gallery/GalleryScripts.js"></script>
 

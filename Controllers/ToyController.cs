@@ -50,6 +50,14 @@ namespace ToyStore.Controllers
                     AgeGroupList = new List<string>()
                 };
 
+                foreach (Toy toy in tvm.ToyList)
+                {
+                    if (!tvm.AgeGroupList.Contains(toy.AgeGroup))
+                    {
+                        tvm.AgeGroupList.Add(toy.AgeGroup);
+                    }
+                }
+
                 ViewBag.SearchValue = searchText; // Pass the search value using ViewBag
 
                 return View(tvm);

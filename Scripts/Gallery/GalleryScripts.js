@@ -11,7 +11,7 @@ var ageGroupDataAttribute = ageGroupDataElement.getAttribute('data-agegroupdata'
 // Parse the JSON data and store in variables
 var toyData = JSON.parse(toyDataAttribute);
 var categoryData = JSON.parse(categoryDataAttribute);
-var ageGroupData = JSON.parse(ageGroupDataAttribute).sort((a, b) => a.localeCompare(b));
+var ageGroupData = JSON.parse(ageGroupDataAttribute).sort((a, b) => b.localeCompare(a));
 
 // Get products container
 const productsContainer = document.getElementById("products-container");
@@ -46,6 +46,24 @@ document.addEventListener("DOMContentLoaded", function () {
         categoryFilterBar.appendChild(createCategoryCheckbox(category));
     });
 
+    // Set default value for age group options
+    const defaultValue = "8+"; // Replace "Default Age Group" with your desired default value
+
+    // Populate the Age group options bar
+    const ageGroupOptions = document.getElementById('age-group-options');
+
+    ageGroupData.forEach(group => {
+        const option = document.createElement('option');
+        option.value = group; // Assuming 'group' contains the value of the age group
+        option.textContent = group; // Assuming 'group' contains the display text of the age group
+        if (group === defaultValue) {
+            option.selected = true; // Set this option as selected if it matches the default value
+        }
+        ageGroupOptions.appendChild(option);
+    });
+
+
+
     // Function to filter products based on selected categories
     function filterProductsByCategory(products) {
         const selectedCategories = Array.from(categoryFilterBar.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
@@ -58,7 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to render products based on applied filters
     function renderFilteredProducts(startIndex, batchSize) {
-        const filteredProducts = filterProductsByCategory(toyData);
+        let filteredProducts = filterProductsByCategory(toyData);
+        filteredProducts = filterProductsByAgeGroup(filteredProducts);
         const endIndex = Math.min(startIndex + batchSize, filteredProducts.length);
         productsContainer.innerHTML = ''; // Clear existing products
         for (let i = startIndex; i < endIndex; i++) {
@@ -98,6 +117,32 @@ document.addEventListener("DOMContentLoaded", function () {
         // Render products in the sorted order
         renderFilteredProducts(0, calculateBatchSize());
     });
+
+    // Select the age group options dropdown
+    const ageGroupOptionsDropdown = document.getElementById('age-group-options');
+
+    let selectedAgeGroup = '8+'; // Default selected age group
+    // Event listener for age group options dropdown
+    ageGroupOptionsDropdown.addEventListener('change', function () {
+        // Get the selected age group option value
+        selectedAgeGroup = ageGroupOptionsDropdown.value;
+
+        // Render products based on selected age group
+        renderFilteredProducts(0, calculateBatchSize());
+    });
+
+    // Function to filter products based on selected age group
+    function filterProductsByAgeGroup(products) {
+        if (selectedAgeGroup === "8+") {
+            return products;
+        } else if (selectedAgeGroup === "4+") {
+            return products.filter(product => product.AgeGroup === "4+" || product.AgeGroup === "All ages");
+        } else if (selectedAgeGroup === "All ages") {
+            return products.filter(product => product.AgeGroup === "All ages");
+        } else {
+            return products; // Return all products if no age group is selected
+        }
+    }
 
     function generateProduct(toy) {
         const product = document.createElement("div");
@@ -166,8 +211,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (scrollTop + clientHeight >= scrollHeight - 20) {
             const currentProductCount = productsContainer.querySelectorAll('.product').length;
             const filteredProducts = filterProductsByCategory(toyData); // Filter products based on applied categories
-            if (currentProductCount < filteredProducts.length) {
-                const remainingProducts = filteredProducts.length - currentProductCount;
+            const ageFilteredProducts = filterProductsByAgeGroup(filteredProducts); // Filter products based on selected age group
+            if (currentProductCount < ageFilteredProducts.length) {
+                const remainingProducts = ageFilteredProducts.length - currentProductCount;
                 const productsToLoad = Math.min(calculateBatchSize(), remainingProducts);
                 renderFilteredProducts(currentProductCount, productsToLoad);
             }

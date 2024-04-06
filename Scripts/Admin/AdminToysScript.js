@@ -37,7 +37,6 @@ function appendAddToyButton() {
         buttonContainer.appendChild(button);
     }
 }
-
 function appendAddCategoryButton() {
     var buttonContainer = document.getElementById('button-container');
     if (buttonContainer) {
@@ -49,7 +48,6 @@ function appendAddCategoryButton() {
         buttonContainer.appendChild(button);
     }
 }
-
 function addCategory() {
     var buttonContainer = document.getElementById('button-container');
 
@@ -91,26 +89,38 @@ function saveCategory() {
         },
         body: JSON.stringify(category),
     })
-        .then(response => response.json())
-        .then(data => {
-            category = data.category;
+    .then(response => response.json())
+    .then(data => {
+        // Handle the data returned by the server
+        if (!data.success) {
+            alert(data.message);
+            return;
+        }
 
-            // Append the new category to the categoryData array
-            categoryData.push(category);
+        category = data.category;
 
-            // Append the new category to the categoryDataElement
-            categoryDataElement.setAttribute('data-categorydata', JSON.stringify(categoryData));
+        // Append the new category to the categoryData array
+        categoryData.push(category);
 
-            // Append the new category to the select element
-            var categorySelect = document.getElementById('category');
-            var newOption = document.createElement('option');
-            newOption.value = category.Name;
-            newOption.textContent = category.Name;
-            categorySelect.appendChild(newOption);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        // Append the new category to the categoryDataElement
+        categoryDataElement.setAttribute('data-categorydata', JSON.stringify(categoryData));
+
+        // Append the new category to the select element
+        var categorySelect = document.getElementById('category');
+        var newOption = document.createElement('option');
+        newOption.value = category.Name;
+        newOption.textContent = category.Name;
+        categorySelect.appendChild(newOption);
+
+        // Remove the input fields and button
+        document.getElementById('category-name').remove();
+        document.getElementById('category-description').remove();
+        document.getElementById('save-category-button').remove();
+
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 function generateProduct(toy) {
     const product = document.createElement("div");
@@ -153,25 +163,26 @@ function generateProduct(toy) {
 
     
     frontSide.innerHTML = `
-    <img src="${toy.ImagePath}" alt="${toy.Name} Image">
-    <h2>${toy.Name}</h2>
-    <p>Category: ${toy.Category.Name}</p>
-    <p>Description: ${toy.Description}</p>
-    <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
-    ${isOutOfStock ? `
-    <input type="number" name="amount" value="1" min="1" max="99" oninput="validity.valid||(value='');" />
-    <button class="restock" onclick="showOrderConfirmation('${toy.Name}', this.previousElementSibling.value)">Restock</button>
-    ` : ``}
-    <p>Age Group: ${toy.AgeGroup}</p>
-    <h3>Price: ${toy.Price} $</h3>
-    <div class="buttons">
-        <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
-        <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
+        <img src="${toy.ImagePath}" alt="${toy.Name} Image">
+        <h2>${toy.Name}</h2>
+        <p>Category: ${toy.Category.Name}</p>
+        <p>Description: ${toy.Description}</p>
+        <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
+        ${isOutOfStock ? `
+        <input type="number" name="amount" value="1" min="1" max="99" oninput="validity.valid||(value='');" />
+        <button class="restock" onclick="showOrderConfirmation('${toy.Name}', this.previousElementSibling.value)">Restock</button>
+        ` : ``}
+        <p>Age Group: ${toy.AgeGroup}</p>
+        <h3>Price: ${toy.Price} $</h3>
+        <div class="buttons">
+            <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
+            <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
 
-    </div>
-`;
+        </div>
+    `;
 
     backSide.innerHTML = `
+        <img src="${toy.ImagePath}" alt="${toy.Name} Image">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="${toy.Name}">
 
@@ -185,7 +196,7 @@ function generateProduct(toy) {
         <input type="text" id="description" name="description" value="${toy.Description}">
 
         <label for="amount">Availability:</label>
-        <input type="amount" id="amount" name="amount" value="${toy.Amount}" min="0">
+        <input type="number" id="amount" name="amount" value="${toy.Amount}" min="0" step="1">
 
         <label for="ageGroup">Age Group:</label>
         <select id="ageGroup" name="ageGroup">
@@ -201,8 +212,8 @@ function generateProduct(toy) {
 
         <button class="save" onclick="saveToy(${toy.ToyId})">Save</button>
 
-    </div>
-`;
+        </div>
+    `;
 
     // Event listener to handle selection of category
     const categoryInput = backSide.querySelector('#category');
@@ -291,39 +302,41 @@ function saveToy(toyId) {
         },
         body: JSON.stringify(toy),
     })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the data returned by the server
-            toy = data.toy;
+    .then(response => response.json()) // Parse the response body as JSON
 
-            // Update the front side with the new values
-            frontSide.innerHTML = `
-                <img src="${toy.ImagePath}" alt="${toy.Name} Image">
-                <h2>${toy.Name}</h2>
-                <p>Category: ${toy.Category.Name}</p>
-                <p>Description: ${toy.Description}</p>
-                <p>Availability: ${toy.Amount <= 0 ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
-                <p>Age Group: ${toy.AgeGroup}</p>
-                <h3>Price: ${toy.Price} $</h3>
-                <div class="buttons">
-                    <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
-                    <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
-                </div>
-                `;
+    .then(data => {
+        // Handle the data returned by the server
+        if (!data.success) {
+            alert(data.message);
+            return;
+        }
+        toy = data.toy;
 
-            productDiv.setAttribute("id", `${toy.ToyId}`); // Set ID attribute with toy ID
+        // Update the front side with the new values
+        frontSide.innerHTML = `
+            <img src="${toy.ImagePath}" alt="${toy.Name} Image">
+            <h2>${toy.Name}</h2>
+            <p>Category: ${toy.Category.Name}</p>
+            <p>Description: ${toy.Description}</p>
+            <p>Availability: ${toy.Amount <= 0 ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
+            <p>Age Group: ${toy.AgeGroup}</p>
+            <h3>Price: ${toy.Price} $</h3>
+            <div class="buttons">
+                <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
+                <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
+            </div>
+            `;
 
-            // Toggle flip class to initiate
-            backSide.classList.add('hidden');
-            frontSide.classList.remove('hidden');
-            productDiv.classList.toggle('flip');
+        productDiv.setAttribute("id", `${toy.ToyId}`); // Set ID attribute with toy ID
 
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        // Toggle flip class to initiate
+        backSide.classList.add('hidden');
+        frontSide.classList.remove('hidden');
+        productDiv.classList.toggle('flip');
 
-
+    })
+    .catch((error) => {
+    });
 }
 function addToy() {
     product = generateProduct();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,25 +27,40 @@ namespace ToyStore.Controllers
         [HttpPost]
         public ActionResult EditToy(Toy toy)
         {
-            _toyDAL.EditToy(toy);
+            try
+            {
+                _toyDAL.EditToy(toy);
+                Toy editedToy = _toyDAL.GetToyById(toy.ToyId); // Assuming you have a method to get a toy by its ID
+                editedToy.Category = _categoryDAL.GetCategoryById(editedToy.CategoryId); // Assuming you have a method to get a category by its ID
 
-            Toy editedToy = _toyDAL.GetToyById(toy.ToyId); // Assuming you have a method to get a toy by its ID
-            editedToy.Category = _categoryDAL.GetCategoryById(editedToy.CategoryId); // Assuming you have a method to get a category by its ID
-
-            // Return a response
-            return Json(new { success = true, toy = editedToy });
+                // Return a response
+                return Json(new { success = true, toy = editedToy, message = "Toy edited successfully" });
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = e.EntityValidationErrors.First().ValidationErrors.First().ErrorMessage;
+                return Json(new { success = false, message });
+            }
         }
+
 
         [HttpPost]
         public ActionResult AddToy(Toy toy)
         {
-            _toyDAL.AddToy(toy);
+            try
+            {
+                _toyDAL.AddToy(toy);
+                Toy editedToy = _toyDAL.GetToyById(toy.ToyId); // Assuming you have a method to get a toy by its ID
+                editedToy.Category = _categoryDAL.GetCategoryById(editedToy.CategoryId); // Assuming you have a method to get a category by its ID
 
-            Toy addedToy = _toyDAL.GetToyById(toy.ToyId); // Assuming you have a method to get a toy by its ID
-            addedToy.Category = _categoryDAL.GetCategoryById(addedToy.CategoryId); // Assuming you have a method to get a category by its ID
-
-            // Return a response
-            return Json(new { success = true, toy = addedToy });
+                // Return a response
+                return Json(new { success = true, toy = editedToy, message = "Toy edited successfully" });
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = e.EntityValidationErrors.First().ValidationErrors.First().ErrorMessage;
+                return Json(new { success = false, message });
+            }
         }
 
         [HttpPost]
@@ -59,12 +75,20 @@ namespace ToyStore.Controllers
         [HttpPost]
         public ActionResult AddCategory(Category category)
         {
-            _categoryDAL.AddCategory(category);
+            try
+            {
+                _categoryDAL.AddCategory(category);
+                Category addedCategory = _categoryDAL.GetCategoryById(category.CategoryId);
+                return Json(new { success = true, category = addedCategory });
+            }
 
-            Category addedCategory = _categoryDAL.GetCategoryById(category.CategoryId); // Assuming you have a method to get a category by its ID
+            catch (DbEntityValidationException e)
+            {
+                string message = e.EntityValidationErrors.First().ValidationErrors.First().ErrorMessage;
+                return Json(new { success = false, message });
+            }
 
-            // Return a response
-            return Json(new { success = true, category = addedCategory });
+
         }
 
         public ActionResult Categories()

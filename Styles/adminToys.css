@@ -37,6 +37,7 @@ body {
         /* Add more styles as needed */
         align-self: center;
         margin-bottom : 10px;
+        display : flex;
     }
 
     .product h2 {
