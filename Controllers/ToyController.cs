@@ -14,10 +14,14 @@ namespace ToyStore.Controllers
     {
         protected readonly ToyDAL _toyDAL;
         protected readonly CategoryDAL _categoryDAL;
+        protected readonly OrderDAL _orderDAL;
+        protected readonly OrderItemDAL _orderItemDAL;
         protected readonly ToyViewModel _toyViewModel;
         public ToyController()  
         {
             _toyDAL = new ToyDAL();
+            _orderDAL = new OrderDAL();
+            _orderItemDAL = new OrderItemDAL();
             _categoryDAL = new CategoryDAL();
             _toyViewModel = new ToyViewModel
             {
@@ -32,6 +36,18 @@ namespace ToyStore.Controllers
                 if (!_toyViewModel.AgeGroupList.Contains(toy.AgeGroup))
                 {
                     _toyViewModel.AgeGroupList.Add(toy.AgeGroup);
+                }
+            }
+
+            // Populate the OrderCount field for each Toy
+            foreach (Toy toy in _toyViewModel.ToyList)
+            {
+                foreach (var orderItem in _orderItemDAL.OrderItems)
+                {
+                    if (orderItem.ToyId == toy.ToyId)
+                    {
+                        toy.OrderCount += orderItem.Quantity;
+                    }
                 }
             }
         }

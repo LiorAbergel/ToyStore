@@ -41,9 +41,12 @@ namespace ToyStore.Models
 
         [Required(ErrorMessage = "Please enter the category Id.")]
         public int CategoryId { get; set; }
-
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
+
+        [NotMapped]
+        public int OrderCount { get; set; }
+
 
     }
 }

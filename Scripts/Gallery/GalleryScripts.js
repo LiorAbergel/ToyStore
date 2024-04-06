@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Define sorting functions for different sort options
         const sortFunctions = {
-            'popular-desc': (a, b) => a.Price - b.Price,
+            'popular-desc': (a, b) => b.OrderCount - a.OrderCount,
             'price-asc': (a, b) => a.Price - b.Price,
             'price-desc': (a, b) => b.Price - a.Price,
             'category-asc': (a, b) => a.Category.Name.localeCompare(b.Category.Name),

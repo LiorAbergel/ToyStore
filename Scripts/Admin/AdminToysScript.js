@@ -173,6 +173,7 @@ function generateProduct(toy) {
         <button class="restock" onclick="showOrderConfirmation('${toy.Name}', this.previousElementSibling.value)">Restock</button>
         ` : ``}
         <p>Age Group: ${toy.AgeGroup}</p>
+        <h4>Order Count: ${toy.OrderCount}</h4>
         <h3>Price: ${toy.Price} $</h3>
         <div class="buttons">
             <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
