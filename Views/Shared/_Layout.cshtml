@@ -1,6 +1,4 @@
-﻿@model ToyStore.ViewModel.ToyViewModel
-
-@{
+﻿@{
     var categories = ViewBag.HeaderCategories;
 }
 
@@ -73,7 +71,7 @@
         <div class="navbar">
             <ul>
                 <li><a href="@Url.Action("Index", "Home")" ;">Home</a></li>
-                <li><a href="#">Cart</a></li>
+                <li><a href="@Url.Action("Cart", "Order")">Cart</a></li>
                 <li><a href="@Url.Action("Gallery", "Toy")">Gallery</a></li>
                 <li><a href="@Url.Action("About", "Home")">About</a></li>
                 <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
@@ -107,16 +105,18 @@
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/Header/HeaderScript.js"></script>
 
+    <footer>
+        <p>&copy;@DateTime.Now.Year - Toy Store</p>
+        <div class="social-links">
+            <a href="https://facebook.com"><img src="~/Images/facebook.png" alt="Facebook"></a>
+            <a href="https://instagram.com"><img src="~/Images/instagram.png" alt="Instagram"></a>
+        </div>
+    </footer>
+
 
 </body>
 </html>
-<footer>
-    <p>&copy;@DateTime.Now.Year - Toy Store</p>
-    <div class="social-links">
-        <a href="https://facebook.com"><img src="~/Images/facebook.png" alt="Facebook"></a>
-        <a href="https://instagram.com"><img src="~/Images/instagram.png" alt="Instagram"></a>
-    </div>
-</footer>
+
 
 
 

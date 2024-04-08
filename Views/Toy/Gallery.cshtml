@@ -21,12 +21,6 @@ else {<h4>You searched for : @ViewBag.SearchValue</h4>}
 
     <select id="age-group-options">
         <!-- Options will be dynamically added here -->
-        @*@{
-            foreach (var ageGroup in Model.AgeGroupList)
-            {
-                <option value="@ageGroup">@ageGroup</option>
-            }
-        }*@
     </select>
 
     <select id="sort-options">
@@ -37,8 +31,6 @@ else {<h4>You searched for : @ViewBag.SearchValue</h4>}
         <option value="name-asc">Name: A to Z</option>
         <option value="name-desc">Name: Z to A</option>
     </select>
-
-
 
 </div>
 

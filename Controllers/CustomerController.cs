@@ -5,6 +5,7 @@ using ToyStore.Models;
 using ToyStore.DAL;
 using ToyStore.ViewModel;
 using System.Web.UI;
+using System.Web.Services.Description;
 
 
 namespace ToyStore.Controllers
@@ -45,6 +46,7 @@ namespace ToyStore.Controllers
             // If the model state is not valid, return the user to the registration page
             return View("Register", model);
         }
+
         public ActionResult LogIn()
         {
             _customerViewModel.Customer = new Customer();
@@ -68,7 +70,10 @@ namespace ToyStore.Controllers
                 if (customer != null)
                 {
                     // If the customer exists, store the customer in the session and redirect to the home page
-                    Session["Customer"] = customer;
+                    Session["CustomerFirstName"] = customer.FirstName;
+                    Session["CustomerLastName"] = customer.LastName;
+                    Session["CustomerEmail"] = customer.Email;
+                    Session["CustomerAddress"] = customer.Address;
                     Session["IsLoggedIn"] = "true";
                     Session["Role"] = customer.Role;
                     Session["CustomerName"] = customer.FirstName + " " + customer.LastName;
@@ -85,79 +90,69 @@ namespace ToyStore.Controllers
             return View("LogIn", model);
         }
 
+        [HttpPost]
+        public ActionResult AddToCart(int toyId, int amount)
+        {
+            // Retrieve the toy from the database
+            Toy toy = ToyDAL.GetToyById(toyId);
+
+            if (toy == null)
+                return Json(new { success = false, message = "Toy not found" });
+
+            if (toy.Amount < amount)
+                return Json(new { success = false, message = "Not enough stock" });
+
+            // Create a new order item
+            OrderItem orderItem = new OrderItem
+            {
+                ToyId = toyId,
+                Toy = toy,
+                Quantity = amount
+            };
+
+            // Check if the session has an order list
+            if (Session["Orders"] == null)
+                Session["Orders"] = new List<OrderItem>();
+
+            // Success message
+            string message = "Added To Your Cart!\nToy : " + toy.Name + "\nAmount : " + amount;
+
+            // Check if the order item already exists in the session
+            foreach (OrderItem item in (List<OrderItem>)Session["Orders"])
+            {
+                if (item.ToyId == orderItem.ToyId)
+                {
+                    item.Quantity += orderItem.Quantity;
+                    return Json(new { success = true, message });
+                }
+            }
+
+            // Add the order item to the session
+            ((List<OrderItem>)Session["Orders"]).Add(orderItem);
+
+            return Json(new { success = true, message });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveFromCart(int toyId)
+        {
+            // Check if the session has an order list
+            if (Session["Orders"] == null)
+                return Json(new { success = false, message = "No Items in Cart." });
+
+            // Remove the order item from the session
+            ((List<OrderItem>)Session["Orders"]).RemoveAll(item => item.ToyId == toyId);
+
+            return Json(new { success = true, message = "Removed From Cart." });
+        }
+
         public ActionResult LogOut()
         {
             Session.Contents.RemoveAll();
+            // clear js session storage
             return RedirectToAction("Index", "Home");
         }
 
-            //public ActionResult Load()
-            //{
-            //    Customer mcust = new Customer
-            //    {
-            //        FirstName = " ",
-            //        LastName = " ",
-            //        CustomerId = " "
-            //    };
-
-            //    return View("Customer", mcust);
-            //}
-
-            //public ActionResult Enter()
-            //{
-
-            //    CustomerDAL dal = new CustomerDAL();
-            //    CustomerViewModel cvm = new CustomerViewModel();
-            //    List<Customer> customers = dal.Customers.ToList();
-            //    cvm.Customer = new Customer();
-            //    cvm.CustomerList = customers;
-            //    return View(cvm);
-            //}
-
-            //[HttpPost]
-            //public ActionResult Submit()
-            //{
-            //    CustomerViewModel cvm = new CustomerViewModel();
-            //    Customer myCustomer = new Customer()
-            //    {
-            //        FirstName = Request.Form["customer.FirstName"].ToString(),
-            //        LastName = Request.Form["customer.LastName"].ToString(),
-            //        Email = Request.Form["customer.Email"].ToString(),
-            //        Address = Request.Form["customer.Address"].ToString()
-            //    };
-            //    CustomerDAL dal = new CustomerDAL();
-            //    if (ModelState.IsValid)
-            //    {
-            //        dal.Customers.Add(myCustomer);
-            //        dal.SaveChanges();
-            //        cvm.Customer = new Customer();
-            //    }
-            //    else
-            //        cvm.Customer = myCustomer;
-
-            //    cvm.CustomerList = dal.Customers.ToList();
-
-            //    return View("Enter", cvm);
-            //}
-
-            //public ActionResult ShowSearch()
-            //{
-            //    CustomerViewModel cvm = new CustomerViewModel();
-            //    cvm.CustomerList = new List<Customer>();
-
-            //    return View("SearchCustomer", cvm);
-            //}
-
-            //public ActionResult SearchCustomer()
-            //{
-            //    CustomerDAL dal = new CustomerDAL();
-            //    string searchValue = Request.Form["txtFirstName"].ToString();
-            //    List<Customer> customers = (from x in dal.Customers where x.FirstName.Contains(searchValue) select x).ToList<Customer>();
-            //    CustomerViewModel cvm = new CustomerViewModel();
-            //    cvm.CustomerList = customers;
-
-            //    return View("SearchCustomer", cvm);
-            //}
 
 
 

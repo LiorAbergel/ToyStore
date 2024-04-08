@@ -9,7 +9,7 @@ using ToyStore.ViewModel;
 
 namespace ToyStore.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : BaseController
     {
         private readonly OrderDAL _orderDAL;
         private readonly OrderViewModel _orderViewModel;
@@ -40,23 +40,28 @@ namespace ToyStore.Controllers
             return View();
         }
 
-        public ActionResult Search()
+        //public ActionResult Search()
+        //{
+        //    int customerId = ((Customer)Session["Customer"]).CustomerId;
+
+        //    List<Order> OrderList = _orderDAL.Orders.Where(x => x.CustomerId == customerId).ToList();
+        //    List<OrderItem> OrderItemList = new List<OrderItem>();
+
+        //    foreach (Order order in OrderList)
+        //        OrderItemList.AddRange(_orderItemDAL.OrderItems.Where(x => x.OrderId == order.OrderId).ToList());
+
+        //    OrderViewModel orderViewModel = new OrderViewModel 
+        //    {
+        //        OrderList = OrderList,
+        //        OrderItemList = OrderItemList
+        //    };
+
+        //    return View("Search", orderViewModel);
+        //}
+
+        public ActionResult Cart()
         {
-            int customerId = ((Customer)Session["Customer"]).CustomerId;
-
-            List<Order> OrderList = _orderDAL.Orders.Where(x => x.CustomerId == customerId).ToList();
-            List<OrderItem> OrderItemList = new List<OrderItem>();
-
-            foreach (Order order in OrderList)
-                OrderItemList.AddRange(_orderItemDAL.OrderItems.Where(x => x.OrderId == order.OrderId).ToList());
-
-            OrderViewModel orderViewModel = new OrderViewModel 
-            {
-                OrderList = OrderList,
-                OrderItemList = OrderItemList
-            };
-
-            return View("Search", orderViewModel);
+            return View();
         }
     }
 }

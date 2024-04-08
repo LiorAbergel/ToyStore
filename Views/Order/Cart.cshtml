@@ -1,0 +1,103 @@
+﻿@model ToyStore.ViewModel.OrderViewModel
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <title>Cart Checkout</title>
+    <link rel="stylesheet" href="~/Styles/cart.css">
+    <script src="~/Scripts/Cart/CartScript.js" defer></script>
+</head>
+
+
+<div class="container">
+
+    <h1>Cart Checkout</h1>
+    <!-- Product Cards -->
+    <div class="product-cards">
+        <!-- Add more product cards as needed -->
+    </div>
+    <h2 id="total-amount"></h2>
+
+    @*Credit Card List*@
+    <h3>Credit Cards</h3>
+    <button onclick="addCard()">Add Credit Card</button>
+    <button onclick="editCard()">Edit Credit Card</button>
+    <button onclick="removeCard()">Remove Credit Card</button>
+    <ul id="cardList">
+        @*Cards will be dynamically added here*@
+    </ul>
+
+    @*Modal*@
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Edit Credit Card</h2>
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName">
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber">
+            <label for="expDate">Expiration Date:</label>
+            <input type="text" id="expDate" name="expDate">
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv">
+            <button onclick="saveCard()">Save</button>
+        </div>
+    </div>
+
+    @*Checkout Form*@
+    <div id="form-container">
+        <form id="checkoutForm" action="#" method="post">
+
+            @if (Session["IsLoggedIn"] != null && Session["IsLoggedIn"].ToString() == "true")
+            {
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="first-name" value="@Session["CustomerFirstName"]" readonly>
+
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="last-name" value="@Session["CustomerLastName"]" readonly>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="@Session["CustomerEmail"]" readonly>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" value="@Session["CustomerAddress"]" readonly>
+            }
+
+            else
+            {
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+            }
+
+            @*<script src="https://www.paypal.com/sdk/js?client-id=BAAkQF_HMUwnCbG6K7QE0KKzfF3mI1dazoJyYx8wxrFOA8oxEJl-IYjyNyL8blH1GfRITrAxFPxepM3yyE&components=hosted-buttons&disable-funding=venmo&currency=ILS"></script>
+                <div id="paypal-container-PR96SHHZB7PBA"></div>
+
+                <script>
+                    paypal.HostedButtons({
+                    hostedButtonId: "PR96SHHZB7PBA",
+                    }).render("#paypal-container-PR96SHHZB7PBA")
+                </script>*@
+
+            <input type="submit" value="Submit Order" id="submit-button">
+
+        </form>
+    </div>
+
+</div>
+@if (Session["Orders"] != null)
+{
+    <div id="orderData" data-orderdata='@Html.Raw(Json.Encode(Session["Orders"]))' style="display:none;"></div>
+}
+
+
+
+

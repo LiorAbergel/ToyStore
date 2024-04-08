@@ -16,6 +16,42 @@ var ageGroupData = JSON.parse(ageGroupDataAttribute).sort((a, b) => b.localeComp
 // Get products container
 const productsContainer = document.getElementById("products-container");
 
+// Function to show notifty confirmation message
+function showNotifyConfirmation(toyName) {
+    alert(`Got it!\nYou'll be notified when ${toyName} is back in stock`); // Display an alert message
+}
+
+function addToCart(toyId, amount) {
+
+    // Create an object to hold the data
+    const data = {
+        toyId: toyId,
+        amount: parseInt(amount)
+    };
+
+    // Send a POST request to the server
+    fetch('/Customer/AddToCart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+        // Handle the data returned by the server
+        alert(data.message);
+
+        if (!data.success)
+            return;
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // Function to create checkboxes for categories
@@ -62,8 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
         ageGroupOptions.appendChild(option);
     });
 
-
-
     // Function to filter products based on selected categories
     function filterProductsByCategory(products) {
         const selectedCategories = Array.from(categoryFilterBar.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
@@ -90,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Even listener for sort options dropdown
     sortOptionsDropdown.addEventListener('change', function () {
+
 
         // Get the selected sort option value
         const selectedSortOption = sortOptionsDropdown.value;
@@ -146,7 +181,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function generateProduct(toy) {
         const product = document.createElement("div");
-        product.classList.add("product");
+        product.classList.add('product');
+        product.setAttribute('id', toy.ToyId); 
 
         // Check if the toy is out of stock
         const isOutOfStock = toy.Amount <= 0;
@@ -161,8 +197,8 @@ document.addEventListener("DOMContentLoaded", function () {
         <h3>Price: ${toy.Price} $</h3>
         <div class="buttons">
             ${toy.Amount > 0 ? `
-                 <input type="number" name="amount" value="1" min="1" max="${toy.Amount}" oninput="validity.valid||(value='');" />
-                <button class="add-to-car" onclick="showCartAddingConfirmation('${toy.Name}', this.previousElementSibling.value)">Add To Cart</button>
+                <input type="number" name="amount" value="1" min="1" max="${toy.Amount}" oninput="validity.valid||(value='');" />
+                <button class="add-to-cart">Add To Cart</button>
                 <button class="buy-now" onclick="">Buy Now</button>
             ` : `
                 <button class="notify-me" onclick="showNotifyConfirmation('${toy.Name}')">Notify Me</button>
@@ -171,17 +207,18 @@ document.addEventListener("DOMContentLoaded", function () {
         <!-- You can add more details here -->
     `;
 
+        // Add event listener to the "Add To Cart" button
+        const addToCartButton = product.querySelector('.add-to-cart');
+        const toyId = parseInt(product.getAttribute('id'));
+        if (addToCartButton) {
+            addToCartButton.addEventListener('click', function () {
+                addToCart(toyId, this.previousElementSibling.value);
+            });
+        }
+
         return product;
     }
 
-    function showCartAddingConfirmation(toyName, amount) {
-        alert(`Order placed successfully!\nToy : ${toyName}\nAmount : ${amount}`); // Display an alert message
-    }
-
-    // Function to show notifty confirmation message
-    function showNotifyConfirmation(toyName) {
-        alert(`Got it!\nYou'll be notified when ${toyName} is back in stock`); // Display an alert message
-    }
 
     // Function to render a batch of products
     function renderProducts(startIndex, batchSize) {

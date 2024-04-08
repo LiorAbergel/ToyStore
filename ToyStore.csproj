@@ -175,8 +175,10 @@
     <Content Include="Images\instagram.png" />
     <Content Include="Images\Toy_Story_logo.svg.png" />
     <Content Include="Scripts\Admin\AdminToysScript.js" />
+    <Content Include="Scripts\Cart\CartScript.js" />
     <Content Include="Scripts\Header\HeaderScript.js" />
     <Content Include="Styles\adminToys.css" />
+    <Content Include="Styles\cart.css" />
     <Content Include="Styles\gallery.css" />
     <Content Include="Styles\header.css" />
     <Content Include="Styles\home.css" />
@@ -227,6 +229,7 @@
     <Content Include="Views\Order\Search.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Toys.cshtml" />
+    <Content Include="Views\Order\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
