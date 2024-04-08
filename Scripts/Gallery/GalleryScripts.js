@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function generateProduct(toy) {
         const product = document.createElement("div");
         product.classList.add('product');
-        product.setAttribute('id', toy.ToyId); 
+        product.setAttribute('id', toy.ToyId);
 
         // Check if the toy is out of stock
         const isOutOfStock = toy.Amount <= 0;
@@ -215,6 +215,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 addToCart(toyId, this.previousElementSibling.value);
             });
         }
+
+        // Add event listener to the "Buy Now" button
+        const buyNowButton = product.querySelector('.buy-now');
+        if (buyNowButton) {
+            buyNowButton.addEventListener('click', function () {
+                addToCart(toyId, this.previousElementSibling.previousElementSibling.value);
+                window.location.href = '/Order/Cart';
+            });
+        }
+
+
 
         return product;
     }
