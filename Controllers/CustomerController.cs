@@ -70,6 +70,7 @@ namespace ToyStore.Controllers
                 if (customer != null)
                 {
                     // If the customer exists, store the customer in the session and redirect to the home page
+                    Session["CustomerId"] = customer.CustomerId;
                     Session["CustomerFirstName"] = customer.FirstName;
                     Session["CustomerLastName"] = customer.LastName;
                     Session["CustomerEmail"] = customer.Email;
@@ -149,14 +150,7 @@ namespace ToyStore.Controllers
         public ActionResult LogOut()
         {
             Session.Contents.RemoveAll();
-            // clear js session storage
             return RedirectToAction("Index", "Home");
         }
-
-
-
-
-
-
-        }
+    }
 }

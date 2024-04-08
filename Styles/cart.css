@@ -141,9 +141,18 @@ input[type="submit"] {
 
 #form-container {
     display: flex;
-    flex-direction: column;
-    float: left;
-    gap: 10px; /* Adjust the gap between elements */
-    max-width: 300px; /* Optional: Set a maximum width for the form */
+    flex-direction: row; /* Display sections side by side */
+    gap: 20px; /* Adjust the gap between sections */
+    max-width: 600px; /* Optional: Set a maximum width for the form */
     margin: auto; /* Optional: Center the form horizontally */
+}
+
+#customer-info,
+#credit-card {
+    flex: 1; /* Distribute available space evenly between sections */
+}
+
+#submit-button {
+    display: block; /* Ensure the button takes up the full width */
+    margin: 0 auto; /* Center the button horizontally */
 }

@@ -18,5 +18,12 @@ namespace ToyStore.DAL
             modelBuilder.Entity<OrderItem>().ToTable("OrderItem");
             base.OnModelCreating(modelBuilder);
         }
+
+        public void Add(OrderItem orderItem)
+        {
+            orderItem.Toy = null;
+            OrderItems.Add(orderItem);
+            SaveChanges();
+        }
     }
 }
