@@ -147,6 +147,27 @@ namespace ToyStore.Controllers
             return Json(new { success = true, message = "Removed From Cart." });
         }
 
+        [HttpPost]
+        public ActionResult EditQuantity(int toyId, int quantity)
+        {
+
+            // Check if the session has an order list
+            if (Session["Orders"] == null)
+                return Json(new { success = false, message = "No Items in Cart." });
+
+            // Update the quantity of the order item in the session
+            foreach (OrderItem item in (List<OrderItem>)Session["Orders"])
+            {
+                if (item.ToyId == toyId)
+                {
+                    item.Quantity = quantity;
+                    return Json(new { success = true, message = "Quantity Updated." });
+                }
+            }
+
+            return Json(new { success = false, message = "Item not found." });
+        }
+
         public ActionResult LogOut()
         {
             Session.Contents.RemoveAll();

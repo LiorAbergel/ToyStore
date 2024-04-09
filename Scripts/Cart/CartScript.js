@@ -103,10 +103,18 @@ document.addEventListener("DOMContentLoaded", function () {
         productName.textContent = order.Toy.Name;
         productCard.appendChild(productName);
 
-        // Create p element for product amount
-        const productAmount = document.createElement('p');
-        productAmount.textContent = `Amount: ${order.Quantity}`;
-        productCard.appendChild(productAmount);
+        // Create input element for product amount
+        const productAmountInput = document.createElement('input');
+        productAmountInput.type = 'number';
+        productAmountInput.name = 'amount';
+        productAmountInput.value = order.Quantity;
+        productAmountInput.min = '1';
+        productAmountInput.max = order.Toy.Amount;
+        productAmountInput.setAttribute('oninput', "validity.valid||(value='');");
+        productAmountInput.autocomplete = 'off'; // Disable autocomplete
+
+        // Append the input element to the product card
+        productCard.appendChild(productAmountInput);
 
         // Create p element for product price
         const productPrice = document.createElement('p');
@@ -126,6 +134,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Append the product card to the container
         productCardsContainer.appendChild(productCard);
+
+        // Add event listener for change
+        productAmountInput.addEventListener('change', function (event) {
+
+            // Update the order quantity
+            order.Quantity = parseInt(event.target.value);
+
+            // Update the product price
+            const productPrice = productCard.querySelector('p:nth-child(3)');
+            const price = parseFloat(`${order.Toy.Price}`) * order.Quantity;
+            productPrice.textContent = '$' + (price).toFixed(2);
+
+            // Update the total amount
+            const totalAmount = document.getElementById('total-amount').firstChild;
+            totalAmount.textContent = calculateTotal();
+
+            // Send a POST request to the server
+            fetch('/Customer/EditQuantity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ toyId: order.ToyId, quantity: order.Quantity }),
+            })
+                .then(response => response.json())
+
+                .then(data => {
+                    // Handle the data returned by the server
+                    if (!data.success) {
+                        alert(data.message);
+                        return;
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
     }
    
     // Add total amount 
