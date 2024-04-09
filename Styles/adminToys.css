@@ -79,6 +79,19 @@ body {
     transform: rotateY(0); /* Flip back side to front */
 }
 
+.discount-container {
+    display: inline-block;
+}
+
+    .discount-container p,
+    .discount-container input {
+        display: inline-block;
+        vertical-align: middle; /* Align elements vertically */
+    }
+
+    .discount-container p {
+        margin: 0;
+    }
 
 
 

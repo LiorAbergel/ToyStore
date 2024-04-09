@@ -87,9 +87,8 @@ namespace ToyStore.Controllers
                 string message = e.EntityValidationErrors.First().ValidationErrors.First().ErrorMessage;
                 return Json(new { success = false, message });
             }
-
-
         }
+
 
         public ActionResult Categories()
         {

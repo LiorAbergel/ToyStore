@@ -36,7 +36,7 @@
                 {
                     <h6>Welcome back, @Session["CustomerName"] !</h6>
 
-                    if (Session["Role"] != null && Session["Role"].Equals("Admin"))
+                    if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
                     {
                         <a href="@Url.Action("Index", "Admin")" class="signin-button">Admin Panel</a>
                         <a href="@Url.Action("LogOut", "Customer")" class="signin-button">Log Out</a>
@@ -72,7 +72,14 @@
             <ul>
                 <li><a href="@Url.Action("Index", "Home")" ;">Home</a></li>
                 <li><a href="@Url.Action("Cart", "Order")">Cart</a></li>
-                <li><a href="@Url.Action("Gallery", "Toy")">Gallery</a></li>
+                @if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
+                {
+                    <li><a href="@Url.Action("Toys", "Admin")">Gallery</a></li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("Gallery", "Toy")">Gallery</a></li>
+                }
                 <li><a href="@Url.Action("About", "Home")">About</a></li>
                 <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
                 <li><a href="#">Track Order</a></li>

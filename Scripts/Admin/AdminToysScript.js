@@ -174,11 +174,9 @@ function generateProduct(toy) {
         ` : ``}
         <p>Age Group: ${toy.AgeGroup}</p>
         <h4>Order Count: ${toy.OrderCount}</h4>
-        <h3>Price: ${toy.Price} $</h3>
         <div class="buttons">
             <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
-            <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
-
+            <button class="delete" onclick="confirmDeleteToy(${toy.ToyId})">Delete</button>
         </div>
     `;
 
@@ -205,27 +203,24 @@ function generateProduct(toy) {
             ${ageGroupData.filter(ageGroup => ageGroup !== toy.AgeGroup).map(ageGroup => `<option value="${ageGroup}">${ageGroup}</option>`).join('')}
         </select>
 
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" value="${toy.Price}" min="0" step="0.01">
+        <div class="discount-container">
+            <p>Discount:</p>
+            <input type="number" name="amount" value="${toy.Discount}" min="5" max="90" step="5" autocomplete="off" oninput="validity.valid||(value='');" />
+        </div>
+
+        <div class="price-container">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" value="${toy.Price}" min="0" step="0.01">
+        </div>
 
         <label for="imagePath">Image Path:</label>
         <input type="text" id="imagePath" name="imagePath" value="${toy.ImagePath}">
 
-        <button class="save" onclick="saveToy(${toy.ToyId})">Save</button>
+        <button class="save" onclick="confirmSaveToy(${toy.ToyId})">Save</button>
 
         </div>
     `;
 
-    // Event listener to handle selection of category
-    const categoryInput = backSide.querySelector('#category');
-    categoryInput.addEventListener('input', function () {
-        const selectedCategoryName = this.value;
-        const selectedCategory = categoryData.find(category => category.Name === selectedCategoryName);
-        if (selectedCategory) {
-            // You can access the selected category object here
-            console.log(selectedCategory);
-        }
-    });
 
     // Append front and back sides to the product div
     product.appendChild(frontSide);
@@ -233,6 +228,19 @@ function generateProduct(toy) {
 
     return product;
 }
+
+function confirmDeleteToy(toyId) {
+    if (confirm("Are you sure you want to delete this toy?")) {
+        deleteToy(toyId);
+    }
+}
+
+function confirmSaveToy(toyId) {
+    if (confirm("Are you sure you want to save the changes ?")) {
+        saveToy(toyId);
+    }
+}
+
 function editToy(toyId) {
     const productDiv = document.getElementById(`${toyId}`);
     const frontSide = productDiv.querySelector('.product-front');
@@ -288,11 +296,13 @@ function saveToy(toyId) {
     const description = productDiv.querySelector('#description').value;
     const amount = productDiv.querySelector('#amount').value;
     const ageGroup = productDiv.querySelector('#ageGroup').value;
+    const discount = productDiv.querySelector('.discount-container input').value;
     const price = productDiv.querySelector('#price').value;
     const imagePath = productDiv.querySelector('#imagePath').value;
 
+
     // Create a toy object
-    let toy = { toyId, categoryId, name, description, amount, ageGroup, price, imagePath };
+    let toy = { toyId, categoryId, name, description, amount, ageGroup, discount, price, imagePath };
 
     const path = (toyId === 0) ? '/Admin/AddToy' : '/Admin/EditToy';
     // Send a POST request to the server
@@ -313,20 +323,23 @@ function saveToy(toyId) {
         }
         toy = data.toy;
 
-        // Update the front side with the new values
         frontSide.innerHTML = `
-            <img src="${toy.ImagePath}" alt="${toy.Name} Image">
-            <h2>${toy.Name}</h2>
-            <p>Category: ${toy.Category.Name}</p>
-            <p>Description: ${toy.Description}</p>
-            <p>Availability: ${toy.Amount <= 0 ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
-            <p>Age Group: ${toy.AgeGroup}</p>
-            <h3>Price: ${toy.Price} $</h3>
-            <div class="buttons">
-                <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
-                <button class="delete" onclick="deleteToy(${toy.ToyId})">Delete</button>
-            </div>
-            `;
+        <img src="${toy.ImagePath}" alt="${toy.Name} Image">
+        <h2>${toy.Name}</h2>
+        <p>Category: ${toy.Category.Name}</p>
+        <p>Description: ${toy.Description}</p>
+        <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
+        ${isOutOfStock ? `
+        <input type="number" name="amount" value="1" min="1" max="99" oninput="validity.valid||(value='');" />
+        <button class="restock" onclick="showOrderConfirmation('${toy.Name}', this.previousElementSibling.value)">Restock</button>
+        ` : ``}
+        <p>Age Group: ${toy.AgeGroup}</p>
+        <h4>Order Count: ${toy.OrderCount}</h4>
+        <div class="buttons">
+            <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
+            <button class="delete" onclick="confirmDeleteToy(${toy.ToyId})">Delete</button>
+        </div>
+    `;
 
         productDiv.setAttribute("id", `${toy.ToyId}`); // Set ID attribute with toy ID
 
@@ -398,3 +411,34 @@ window.addEventListener("resize", () => {
         initialBatchSize = newBatchSize; // Update initialBatchSize
     }
 });
+
+// Function to apply a discount to a toy
+//function applyDiscount(toyId, discount) {
+//    discount = parseInt(discount);
+//    const productDiv = document.getElementById(`${toyId}`);
+
+//    fetch(`/Admin/EditDiscount`, {
+//        method: 'POST',
+//        body: JSON.stringify({ toyId: toyId, discount: discount }),
+//        headers: {
+//            'Content-Type': 'application/json'
+//        }
+//    })
+//        .then(response => {
+//            if (!response.ok) {
+//                throw new Error(`HTTP error! status: ${response.status}`);
+//            }
+//            return response.json(); // Parse the response body as JSON
+//        })
+//        .then(data => {
+//            // Handle the data returned by the server
+//            if (data.success === false) {
+//                alert(data.message);
+//                return;
+//            }
+//        })
+//        .catch(error => {
+//            // Handle any errors that occur during the fetch operation or when processing the response data
+//            console.error('Error:', error);
+//        });
+
