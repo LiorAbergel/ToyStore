@@ -188,22 +188,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const isOutOfStock = toy.Amount <= 0;
 
         product.innerHTML = `
-        <img src="${toy.ImagePath}" alt="${toy.Name} Image">
-        <h2>${toy.Name}</h2>
-        <p>Category: ${toy.Category.Name}</p>
+    <img src="${toy.ImagePath}" alt="${toy.Name} Image">
+    <h2>${toy.Name}</h2>
+    <h3>Price: ${toy.Price} $</h3>
+    <div class="details-container">
         <p>Description: ${toy.Description}</p>
+        <p>Category: ${toy.Category.Name}</p>
         <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
         <p>Age Group: ${toy.AgeGroup}</p>
-        <h3>Price: ${toy.Price} $</h3>
-        <div class="buttons">
-            ${toy.Amount > 0 ? `
-                <input type="number" name="amount" value="1" min="1" max="${toy.Amount}" oninput="validity.valid||(value='');" />
-                <button class="add-to-cart">Add To Cart</button>
-                <button class="buy-now" onclick="">Buy Now</button>
-            ` : `
-                <button class="notify-me" onclick="showNotifyConfirmation('${toy.Name}')">Notify Me</button>
-            `}
-        </div>
+    </div>
+    <div class="buttons">
+        ${toy.Amount > 0 ? `
+            <input type="number" name="amount" value="1" min="1" max="${toy.Amount}" oninput="validity.valid||(value='');" />
+            <button class="add-to-cart">Add To Cart</button>
+            <button class="buy-now" onclick="">Buy Now</button>
+        ` : `
+            <button class="notify-me" onclick="showNotifyConfirmation('${toy.Name}')">Notify Me</button>
+        `}
+    </div>
+</div>
         <!-- You can add more details here -->
     `;
 

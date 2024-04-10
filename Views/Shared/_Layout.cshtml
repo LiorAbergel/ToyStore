@@ -10,6 +10,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,46 +25,38 @@
 <body>
 
     <div class="header">
+        <div class="sign-in">
+            @if (Session["IsLoggedIn"] != null && Session["IsLoggedIn"].ToString() == "true")
+            {
+                <h6>Welcome back, @Session["CustomerName"] !</h6>
 
+                if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
+                {
+                    <a href="@Url.Action("Index", "Admin")" class="signin-button">Admin Panel</a>
+                    <a href="@Url.Action("LogOut", "Customer")" class="signin-button">Log Out</a>
+                }
+
+                else
+                {
+                    <a href="@Url.Action("Profile", "Customer")" class="signin-button">Profile</a>
+                    <a href="@Url.Action("LogOut", "Customer")" class="signin-button">Log Out</a>
+                }
+            }
+
+            else
+            {<a href="@Url.Action("LogIn", "Customer")" class="signin-button">Sign In</a>}
+
+        </div>
         <div class="top-header">
 
             <a href="@Url.Action("Index", "Home")">
                 <img class="logo" src="/Images/Toy_Story_logo.svg.png" width="100" height="70" alt="Toy Store Logo">
             </a>
 
-            <div class="sign-in">
-                @if (Session["IsLoggedIn"] != null && Session["IsLoggedIn"].ToString() == "true")
-                {
-                    <h6>Welcome back, @Session["CustomerName"] !</h6>
 
-                    if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
-                    {
-                        <a href="@Url.Action("Index", "Admin")" class="signin-button">Admin Panel</a>
-                        <a href="@Url.Action("LogOut", "Customer")" class="signin-button">Log Out</a>
-                    }
 
-                    else
-                    {
-                        <a href="@Url.Action("Profile", "Customer")" class="signin-button">Profile</a>
-                        <a href="@Url.Action("LogOut", "Customer")" class="signin-button">Log Out</a>
-                    }
-                }
 
-                else
-                {<a href="@Url.Action("LogIn", "Customer")" class="signin-button">Sign In</a>}
 
-            </div>
-
-            <div class="search-bar">
-                @using (Html.BeginForm("Gallery", "Toy", FormMethod.Get))
-                {
-                    <input id="searchText" name="searchText" type="search" placeholder="Search for toys" class="search-input" />
-                    <button id="searchButton" type="submit" class="search-button">
-                        <i class="fas fa-search"></i> <!-- Font Awesome search icon -->
-                        Search
-                    </button>
-                }
-            </div>
 
         </div>
 
@@ -71,7 +64,7 @@
         <div class="navbar">
             <ul>
                 <li><a href="@Url.Action("Index", "Home")" ;">Home</a></li>
-                <li><a href="@Url.Action("Cart", "Order")">Cart</a></li>
+
                 @if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
                 {
                     <li><a href="@Url.Action("Toys", "Admin")">Gallery</a></li>
@@ -84,7 +77,26 @@
                 <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
                 <li><a href="#">Track Order</a></li>
             </ul>
+            <div class="search-bar">
+                @using (Html.BeginForm("Gallery", "Toy", FormMethod.Get))
+                {
+                    <input id="searchText" name="searchText" type="search" placeholder="Search for toys" class="search-input" />
+                    <button id="searchButton" type="submit" class="search-button">
+                        <i class="fas fa-search"></i> <!-- Font Awesome search icon -->
+                        Search
+                    </button>
+                }
+            </div>
+            <div class="header-right">
+                <!-- Cart icon link -->
+                <a href="@Url.Action("Cart", "Order")" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i> <!-- Font Awesome cart icon -->
+                    <span class="badge">3</span>
+                </a>
+
+            </div>
         </div>
+
 
         <button class="menu-btn" onclick="toggleMenu()">
             <span class="icon"></span>
