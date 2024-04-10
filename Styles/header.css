@@ -265,3 +265,15 @@ body {
     line-height: 20px; /* Center content vertically */
     font-size: 12px;
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+}

@@ -24,18 +24,18 @@
         transform: translateY(0); /* Final position */
     }
 }
-
 /* Define a keyframe animation called 'scaleAnimation' */
 @keyframes scaleAnimation {
     0% {
-        transform: scale(1); /* Start with normal size */
+        transform: scale(1); /* Start with normal size along the y-axis */
+        transform-origin: center center; /* Set the transform origin to the center */
     }
 
     100% {
-        transform: scale(1.1); /* End with 10% larger size */
+        transform: scale(1.1); /* End with 10% larger size along the y-axis */
+        transform-origin: center center; /* Maintain the transform origin */
     }
 }
-
 
 /* Define the fade-in animation */
 @keyframes fadeIn {
@@ -260,42 +260,42 @@ select {
 
 /* Add this CSS to your gallery.css file */
 .product {
-    transition: transform 0.3s ease; /* Add transition for smooth scaling */
+    transition: transform 0.5s ease; /* Add transition for smooth scaling */
     /* Your existing styles for product cards */
-    position: relative;
-    overflow: hidden;
-    transition: height 0.5s ease;
+    z-index: 1; /* Set initial z-index value */
 
+    transition: height 0.8s ease;
+    position: relative; /* Ensure proper stacking context */
 }
 
     .product:hover {
         height: auto; /* Expand the card to fit the content */
-        animation: scaleAnimation 0.3s ease forwards; /* Apply the animation with a duration of 0.3s */
+        animation: scaleAnimation 0.8s ease forwards; /* Apply the animation with a duration of 0.3s */
 
     }
 
-    /* Add a transition for the transform property to slowly return to original size when unhovered */
-    .product:not(:hover) {
-        transform: scale(1); /* Set the scale back to normal size */
-    }
 
 .details-container {
     /* Your existing styles for the details container */
-    
-    display:none;
+
+    display: none;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 10px;
-    
+ 
     opacity: 0; /* Initially hidden */
     transition: opacity 0.5s ease;
 }
 
 .product:hover .details-container {
+    
     opacity: 1; /* Show the details when card is hovered */
     visibility: visible; /* Initially hidden */
-    display:block;
+    display: block;
 }
 
 
+.product:hover {
+    z-index: 2; /* Set higher z-index value when hovered */
+}
