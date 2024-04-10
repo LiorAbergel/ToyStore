@@ -62,12 +62,13 @@ nav li {
 
 .toys-container {
     background-color: black;
-    height: 50%;
+
     border-radius: 8px;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+ 
 }
 
 
