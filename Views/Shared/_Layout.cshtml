@@ -1,11 +1,9 @@
-﻿@{
-    var categories = ViewBag.HeaderCategories;
-}
+﻿@using ToyStore.Models;
 
 @{
+    var categories = ViewBag.HeaderCategories;
     ViewBag.Title = "Toy Store";
 }
-
 <!DOCTYPE html>
 <html>
 
@@ -91,10 +89,19 @@
                 <!-- Cart icon link -->
                 <a href="@Url.Action("Cart", "Order")" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i> <!-- Font Awesome cart icon -->
-                    <span class="badge">3</span>
-                </a>
+                    @if (Session["Orders"] != null && Session["Orders"] is System.Collections.IList orders && orders.Count > 0)
+                    {
+                        var count = 0;
+                        foreach (var order in orders)
+                        {
+                            count += ((OrderItem)order).Quantity;
+                        }
 
+                        <span class="badge" id="quantity-count">@count</span>
+                    }
+                </a>
             </div>
+
         </div>
 
 

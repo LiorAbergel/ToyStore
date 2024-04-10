@@ -47,7 +47,7 @@ namespace ToyStore.Models
         [NotMapped]
         public int OrderCount { get; set; }
 
-        [Range(1, 1000, ErrorMessage = "Discount must be between $1 and $1000.")]
+        [Range(0, 90, ErrorMessage = "Discount must be between 0 % and 90 %.")]
         public int Discount { get; set; }
 
 

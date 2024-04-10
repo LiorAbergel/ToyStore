@@ -66,10 +66,20 @@ namespace ToyStore.Controllers
         [HttpPost]
         public ActionResult DeleteToy(int id)
         {
+            // check if toy is in current order
+            foreach (OrderItem order in _orderItemDAL.OrderItems)
+            {
+                if (order.ToyId == id)
+                {
+                    return Json(new { success = false, message = "Can't delete toy as it's currently in order" });
+                }
+            }
+
+            // Delete the toy
             _toyDAL.DeleteToy(id);
 
             // Return a response
-            return Json(new { success = true });
+            return Json(new { success = true, message = "Toy deleted successfully !" });
         }
 
         [HttpPost]

@@ -46,6 +46,7 @@ function addToCart(toyId, amount) {
 
         if (!data.success)
             return;
+        
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -187,28 +188,36 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if the toy is out of stock
         const isOutOfStock = toy.Amount <= 0;
 
+        let priceHTML;
+        if (toy.Discount > 0) {
+            var discountedPrice = toy.Price - (toy.Price * toy.Discount / 100);
+
+            priceHTML = `<h3>Price: <del>$${toy.Price.toFixed(2)}</del> $${discountedPrice.toFixed(2)}</h3>`;
+        } else {
+            priceHTML = `<h3>Price: $${toy.Price.toFixed(2)}</h3>`;
+        }
+
         product.innerHTML = `
     <img src="${toy.ImagePath}" alt="${toy.Name} Image">
     <h2>${toy.Name}</h2>
-    <h3>Price: ${toy.Price} $</h3>
+    ${priceHTML}
     <div class="details-container">
         <p>Description: ${toy.Description}</p>
         <p>Category: ${toy.Category.Name}</p>
         <p>Availability: ${isOutOfStock ? '<span style="color: red;">Out of Stock</span>' : toy.Amount}</p>
         <p>Age Group: ${toy.AgeGroup}</p>
     </div>
+
     <div class="buttons">
-        ${toy.Amount > 0 ? `
-            <input type="number" name="amount" value="1" min="1" max="${toy.Amount}" oninput="validity.valid||(value='');" />
-            <button class="add-to-cart">Add To Cart</button>
-            <button class="buy-now" onclick="">Buy Now</button>
-        ` : `
-            <button class="notify-me" onclick="showNotifyConfirmation('${toy.Name}')">Notify Me</button>
-        `}
-    </div>
-</div>
-        <!-- You can add more details here -->
-    `;
+            ${toy.Amount > 0 ? `
+                <input type="number" name="amount" value="1" min="1" max="${toy.Amount}" oninput="validity.valid||(value='');" autocomplete="off" />
+                <button class="add-to-cart">Add To Cart</button>
+                <button class="buy-now" onclick="">Buy Now</button>
+            ` : `
+                <button class="notify-me" onclick="showNotifyConfirmation('${toy.Name}')">Notify Me</button>
+            `}
+    </div>`;
+
 
         // Add event listener to the "Add To Cart" button
         const addToCartButton = product.querySelector('.add-to-cart');

@@ -161,6 +161,15 @@ function generateProduct(toy) {
     // Check if the toy is out of stock
     const isOutOfStock = toy.Amount <= 0;
 
+
+    let priceHTML;
+    if (toy.Discount > 0) {
+        var discountedPrice = toy.Price - (toy.Price * toy.Discount / 100);
+
+        priceHTML = `<h3>Price: <del>$${toy.Price.toFixed(2)}</del> $${discountedPrice.toFixed(2)}</h3>`;
+    } else {
+        priceHTML = `<h3>Price: $${toy.Price.toFixed(2)}</h3>`;
+    }
     
     frontSide.innerHTML = `
         <img src="${toy.ImagePath}" alt="${toy.Name} Image">
@@ -173,11 +182,14 @@ function generateProduct(toy) {
         <button class="restock" onclick="showOrderConfirmation('${toy.Name}', this.previousElementSibling.value)">Restock</button>
         ` : ``}
         <p>Age Group: ${toy.AgeGroup}</p>
-        <h4>Order Count: ${toy.OrderCount}</h4>
+        <p>Order Count: ${toy.OrderCount}</p>
+        <p>Discount: ${toy.Discount}%</p>
+        ${priceHTML}
         <div class="buttons">
             <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
             <button class="delete" onclick="confirmDeleteToy(${toy.ToyId})">Delete</button>
         </div>
+
     `;
 
     backSide.innerHTML = `
@@ -205,7 +217,7 @@ function generateProduct(toy) {
 
         <div class="discount-container">
             <p>Discount:</p>
-            <input type="number" name="amount" value="${toy.Discount}" min="5" max="90" step="5" autocomplete="off" oninput="validity.valid||(value='');" />
+            <input type="number" name="amount" value="${toy.Discount}" min="0" max="90" step="5" autocomplete="off" oninput="validity.valid||(value='');" />
         </div>
 
         <div class="price-container">
@@ -269,20 +281,31 @@ function deleteToy(toyId) {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+            // Parse the response body as JSON
+            return response.json();
+        })
+        .then(data => {
+            alert(data.message);
+            if (!data.success) {
+                return;
+            }
 
             // If the request was successful, remove the toy's element from the DOM
+            const productContainer = document.getElementById('products-container');
             const productDiv = document.getElementById(`${toyId}`);
             if (productDiv) {
-                productDiv.remove();
+                productContainer.removeChild(productDiv);
+                // refresh the page
+                location.reload();
             } else {
                 console.error(`Product with ID ${toyId} not found.`);
             }
-
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 }
+
 function saveToy(toyId) {
     const productDiv = document.getElementById(`${toyId}`);
     const frontSide = productDiv.querySelector('.product-front');
@@ -323,6 +346,28 @@ function saveToy(toyId) {
         }
         toy = data.toy;
 
+        // Remove 'hidden' class from frontSide to show it
+        frontSide.classList.remove('hidden');
+
+        // Hide backSide
+        backSide.classList.add('hidden');
+
+        // Toggle flip class to initiate flip animation
+        productDiv.classList.toggle('flip');
+
+        // Define isOutOfStock based on updated toy data
+        const isOutOfStock = toy.Amount <= 0;
+
+        // Define priceHTML based on updated toy data
+        let priceHTML;
+        if (toy.Discount > 0) {
+            var discountedPrice = toy.Price - (toy.Price * toy.Discount / 100);
+
+            priceHTML = `<h3>Price: <del>$${toy.Price.toFixed(2)}</del> $${discountedPrice.toFixed(2)}</h3>`;
+        } else {
+            priceHTML = `<h3>Price: $${toy.Price.toFixed(2)}</h3>`;
+        }
+
         frontSide.innerHTML = `
         <img src="${toy.ImagePath}" alt="${toy.Name} Image">
         <h2>${toy.Name}</h2>
@@ -334,20 +379,28 @@ function saveToy(toyId) {
         <button class="restock" onclick="showOrderConfirmation('${toy.Name}', this.previousElementSibling.value)">Restock</button>
         ` : ``}
         <p>Age Group: ${toy.AgeGroup}</p>
-        <h4>Order Count: ${toy.OrderCount}</h4>
+        <p>Order Count: ${toy.OrderCount}</p>
+        <p>Discount: ${toy.Discount}%</p>
+        ${priceHTML}
         <div class="buttons">
             <button class="edit" onclick="editToy(${toy.ToyId})">Edit</button>
             <button class="delete" onclick="confirmDeleteToy(${toy.ToyId})">Delete</button>
         </div>
-    `;
+        `;
 
         productDiv.setAttribute("id", `${toy.ToyId}`); // Set ID attribute with toy ID
 
-        // Toggle flip class to initiate
-        backSide.classList.add('hidden');
-        frontSide.classList.remove('hidden');
-        productDiv.classList.toggle('flip');
+        if (path == '/Admin/AddToy') {
+            // Append the new toy to the toyData array
+            toyData.push(toy);
 
+            // Append the new toy to the toyDataElement
+            toyDataElement.setAttribute('data-toydata', JSON.stringify(toyData));
+
+            // Append the new toy to the products container
+            productsContainer.prepend(productDiv);
+
+        }
     })
     .catch((error) => {
     });

@@ -11,7 +11,9 @@ html * {
     margin-left: 20px;
 }
 
-
+.header-right {
+    margin-top: 10px;
+}
 .header {
     display: flex;
     flex-direction: column;
@@ -70,7 +72,7 @@ html * {
     align-items: center; /* Center vertically */
     margin-top: 10px;
     margin-left: auto;
-    margin-right: 20px; /* Adjust margin as needed */
+    margin-right: 220px; /* Adjust margin as needed */
     flex-grow: 1; /* Allow the search bar to stretch */
 
 }
