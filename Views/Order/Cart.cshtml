@@ -8,7 +8,6 @@
 <head>
     <title>Cart Checkout</title>
     <link rel="stylesheet" href="~/Styles/cart.css">
-    <script src="~/Scripts/Cart/CartScript.js" defer></script>
 </head>
 
 
@@ -94,6 +93,7 @@
 
 </div>
 
+<script src="~/Scripts/Cart/CartScript.js"></script>
 <div id="orderData" data-orderdata='@Html.Raw(Json.Encode(Session["Orders"]))' style="display:none;"></div>
 
 

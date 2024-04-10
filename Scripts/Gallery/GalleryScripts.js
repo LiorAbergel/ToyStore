@@ -295,4 +295,3 @@ document.addEventListener("DOMContentLoaded", function () {
     let initialBatchSize = calculateBatchSize();
     renderFilteredProducts(0, initialBatchSize);
 });
-

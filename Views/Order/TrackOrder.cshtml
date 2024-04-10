@@ -1,0 +1,52 @@
+﻿@model ToyStore.ViewModel.OrderItemViewModel
+
+@{
+    ViewBag.Title = "TrackOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Track Order</h2>
+
+@if (Session["IsLoggedIn"] == null || Session["IsLoggedIn"].ToString() == "false")
+{
+    // If user is not logged in, show this message
+    <h3>Please login to track your orders</h3>
+}
+else
+{
+    // If user is logged in, show this message
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Order Date</th>
+                                <th>Order Status</th>
+                                <th>Order Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderItemList)
+                            {
+                                if (item.Order.CustomerId == Convert.ToInt32(Session["CustomerId"]))
+                                {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    <td>@item.Order.OrderDate</td>
+                                    <td>@item.Toy.Name</td>
+                                    <td>@item.Quantity</td>
+                                </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+
+}

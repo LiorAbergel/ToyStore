@@ -80,9 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Parse the JSON data
     var orderData = JSON.parse(orderDataAttribute);
 
-    if (orderData === null || orderData.length === 0)
-        return;
-
     // Count the total amount of products in the cart
     let total = 0;
 
@@ -182,22 +179,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add event listener to the checkout button
     const submitButton = document.getElementById('submit-button');
     submitButton.addEventListener('click', function (event) {
+
+        if (orderData === null || orderData.length === 0) {
+            alert("No products in the cart.");
+            return;
+        }
+
         // Retrieve the user data from the HTML
         var firstNameInput = document.getElementById("first-name").value;
         var lastNameInput = document.getElementById("last-name").value;
         var emailInput = document.getElementById("email").value;
         var addressInput = document.getElementById("address").value;
 
+        // Validate the user form
         if (!validateUserForm())
             return;
-
-        // generate random password
-        var randomPassword = Math.random().toString(36).slice(-8);
-        customer = { FirstName: firstNameInput, LastName: lastNameInput, Email: emailInput, Address: addressInput, Password: generateRandomPassword(), Role: "User" };
 
         // validate the credit card form
         if (!validateCreditCardForm())
             return;
+
+        // generate random password
+        customer = { FirstName: firstNameInput, LastName: lastNameInput, Email: emailInput, Address: addressInput, Password: generateRandomPassword(), Role: "User" };
+
+
 
         // Send a POST request to the server
         fetch('/Order/SubmitOrder', {
@@ -270,29 +275,29 @@ function validateCreditCardForm() {
     var cvv = document.getElementById("cvv");
 
     // Validate full name
-    if (fullName.value.trim() === "") {
-        alert("Please enter your full name.");
+    if (fullName.value.trim().length < 6 || !fullName.value.trim().includes(" ")) {
+        alert("Please enter your full name (at least 6 characters with a space).");
         fullName.focus();
         return false;
     }
 
-    // Validate card number (assuming it should be a numeric value)
-    if (isNaN(cardNumber.value.trim()) || cardNumber.value.trim() === "") {
-        alert("Please enter a valid card number.");
+    // Validate card number
+    if (isNaN(cardNumber.value.trim()) || cardNumber.value.trim().length < 8) {
+        alert("Please enter a valid card number (at least 8 digits).");
         cardNumber.focus();
         return false;
     }
 
     // Validate expiration date
-    if (expirationDate.value.trim() === "") {
-        alert("Please enter the expiration date.");
+    if (!/^\d{2}\/\d{2}$/.test(expirationDate.value.trim())) {
+        alert("Please enter the expiration date in the format MM/YY.");
         expirationDate.focus();
         return false;
     }
 
-    // Validate CVV (assuming it should be a numeric value)
-    if (isNaN(cvv.value.trim()) || cvv.value.trim() === "") {
-        alert("Please enter a valid CVV.");
+    // Validate CVV
+    if (isNaN(cvv.value.trim()) || cvv.value.trim().length !== 3) {
+        alert("Please enter a valid CVV (3 digits).");
         cvv.focus();
         return false;
     }
@@ -300,6 +305,7 @@ function validateCreditCardForm() {
     // If all validations pass, the form is valid
     return true;
 }
+
 
 // Function to remove product card
 function removeProductCard(button, toyId) {

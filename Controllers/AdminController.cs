@@ -11,14 +11,15 @@ using ToyStore.ViewModel;
 
 namespace ToyStore.Controllers
 {
-    //[Authorize(Roles = "Admin")] - remember to uncomment this line !!!!!!!!!!!!!!
     public class AdminController : ToyController
     {
         // GET: Admin
+
         public ActionResult Index()
         {
             return View();
         }
+
         public ActionResult Toys()
         {
             return View(_toyViewModel);

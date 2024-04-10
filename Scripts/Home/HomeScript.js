@@ -1,4 +1,6 @@
-﻿function generateProduct(toy) {
+﻿
+
+function generateProduct(toy) {
     const productCard = document.createElement("div");
     productCard.classList.add('product');
 
@@ -118,6 +120,39 @@ function populatePopularProductsContainer() {
         PopularProductsContainer.appendChild(productCard);
     }
 }
+
+function addToCart(toyId, amount) {
+
+    // Create an object to hold the data
+    const data = {
+        toyId: toyId,
+        amount: parseInt(amount)
+    };
+
+    // Send a POST request to the server
+    fetch('/Customer/AddToCart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+
+        .then(response => response.json())
+
+        .then(data => {
+            // Handle the data returned by the server
+            alert(data.message);
+
+            if (!data.success)
+                return;
+
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
 
 // Call the function to populate the products container
 populateProductsContainer();

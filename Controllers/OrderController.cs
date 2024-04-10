@@ -112,6 +112,12 @@ namespace ToyStore.Controllers
             return View();
         }
 
+        public ActionResult TrackOrder()
+        {
+
+            return View(_orderItemViewModel);
+        }
+
         //public ActionResult Search()
         //{
         //    int customerId = ((Customer)Session["Customer"]).CustomerId;
@@ -133,7 +139,7 @@ namespace ToyStore.Controllers
 
         public ActionResult Cart()
         {
-            return View();
+            return View(_orderViewModel);
         }
     }
 }
