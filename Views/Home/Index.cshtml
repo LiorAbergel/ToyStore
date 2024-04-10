@@ -1,4 +1,4 @@
-﻿@model ToyStore.ViewModel.CustomerViewModel
+﻿@model ToyStore.ViewModel.ToyViewModel
 
 
 @{Layout = "/Views/Shared/_Layout.cshtml";}
@@ -11,33 +11,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toy Store</title>
     <link rel="stylesheet" href="~/Styles/home.css">
+    <link rel="stylesheet" href="~/Styles/gallery.css">
 </head>
 
 <body>
     <!-- Your content goes here -->
     <div class="grid-container">
 
-        <div class="left-column"></div>
+        <div class="left-column">
+            <div class="toys-container">
+                <h2 class="title-container">Most Popular</h2> <!-- Title for the third container -->
 
+                <div class="PopularProductsContainer-container">
+
+
+                    <div class="container" id="PopularProductsContainer-container">
+                        <!-- Products will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="right-column">
             @*<main>*@
-            <div class="title-container">
-                <nav>
-                    <ul>
-                        <li><a href="#">All Discounts</a></li>
-                        <li><a href="#">Gift Packs</a></li>
-                    </ul>
-                </nav>
 
-
-            </div>
             <div class="toys-container">
+                <h2 class="title-container">On Sale</h2> <!-- Title for the second container -->
 
+
+                <div class="SaleProductsContainer-container">
+
+
+                    <div class="container" id="SaleProductsContainer-container">
+                        <!-- Products will be dynamically added here -->
+                    </div>
+                </div>
             </div>
 
-            @*</main>*@
+        </div>
+
+
+        @*</main>*@
+
+    </div>
+    <div class="toys-container">
+        <h2 class="title-container">New Arrivals</h2> <!-- Title for the first container -->
+        <div class="products-container">
+
+
+            <div class="container" id="products-container">
+                <!-- Products will be dynamically added here -->
+            </div>
+
+            <div class="container" id="products-container">
+                <!-- Products will be dynamically added here -->
+            </div>
         </div>
     </div>
+
+    <div id="categoryData" data-categorydata='@Html.Raw(Json.Encode(Model.CategoryList))' style="display:none;"></div>
+    <div id="ageGroupData" data-agegroupdata='@Html.Raw(Json.Encode(Model.AgeGroupList))' style="display:none;"></div>
+
+    <div id="toyData" data-toydata='@Html.Raw(Json.Encode(Model.ToyList))' style="display:none;"></div>
     <script src="~/Scripts/Home/HomeScript.js"></script>
 </body>
+
 </html>
+

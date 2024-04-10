@@ -56,6 +56,7 @@ body {
 }
 
 .container {
+    justify-content: start;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
@@ -63,6 +64,7 @@ body {
     width: 100%; /* Set width to 100% */
     max-width: none; /* Ensure no maximum width constraints */
     margin: 0; /* Remove any margins */
+   
 }
 
 .product {

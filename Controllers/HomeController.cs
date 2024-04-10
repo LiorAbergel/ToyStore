@@ -10,12 +10,17 @@ using ToyStore.ViewModel;
 
 namespace ToyStore.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : ToyController
     {
-        public HomeController() { }
+        
+        public HomeController() {
+        
+        
+        }
         public ActionResult Index()
         {
-            return View();
+
+            return View(_toyViewModel);
         }
 
         public ActionResult About()

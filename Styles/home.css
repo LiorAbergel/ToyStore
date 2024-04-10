@@ -52,24 +52,38 @@ nav li {
 
 .title-container {
     text-align: center;
-    background-color: #d0d0d0;
+    
     padding: 0px;
     border-radius: 8px;
     margin-bottom: 0px;
     box-sizing: border-box;
-    height: 50%;
+
 }
 
 .toys-container {
-    background-color: black;
-
+    background: linear-gradient(to bottom, rgba(240, 240, 255, 0.8) 0%, rgba(240, 240, 255, 0.5) 50%, rgba(220, 220, 240, 1) 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 70px;
+    margin-top: 50px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    border-radius: 50px; /* Adjust this value to control the roundness of the corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Increased spread and blur radius */
     justify-content: space-between;
- 
 }
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.SaleProductsContainer-container {
+    flex: 1; /* Allows this container to expand and fill available space */
+    overflow-y: auto; /* Add vertical scrollbar if necessary */
+}
+
 
 
 
@@ -79,10 +93,7 @@ nav li {
     justify-content: space-around;
 }
 
-.product-card {
-    margin: 10px;
-    text-align: center;
-}
+
 
 .social-links {
     margin-top: 10px;
@@ -100,13 +111,12 @@ nav li {
 
 
 .left-column {
-    grid-column: 1 / span 1;
+    padding: 20px;
+    
 }
 
 .right-column {
-    grid-column: 2 / span 1;
-    display: grid;
-    flex-direction: row-reverse;
+    padding: 20px;
 }
 
 .text-container {
@@ -127,10 +137,10 @@ nav li {
     display: grid;
     margin-top: -15px;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    padding: 20px;
     margin-left: -0px;
     align-items: stretch;
-    grid-template-columns: 0fr 10fr;
+    grid-template-columns: 6fr 4fr;
 }
 
 .container {
